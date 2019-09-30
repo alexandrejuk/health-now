@@ -49,7 +49,7 @@ public class WebMainServlet extends HttpServlet {
 		}
 		
 		if(employee == null && pacient == null)
-			out.println("Usuário não encontrado, login ou senha inválidos!");
+			req.getRequestDispatcher("/403.html").forward(req, resp);
 	
 		out.flush();
 		out.close();

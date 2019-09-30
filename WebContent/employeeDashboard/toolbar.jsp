@@ -8,14 +8,12 @@
 	Cookie[] cookies = request.getCookies();
 	String employeeId = null;
 	
-	if (cookies != null) {
 	 for (Cookie cookie : cookies) {
 	   if (cookie.getName().equals("employee")) {
 		   employeeId = cookie.getValue();
 	    }
 	  }
-	}
-	
+
 	Employee employeeLogged = controller.getEmployeeByDocumentId(employeeId);
 	
 	
@@ -31,7 +29,13 @@
   </div>
   <div class="toolbarHeader">
     <h4> Olá </h4>
-    <h3>Dr. <% out.print(employeeLogged.getName()); %>!</h3>
+    <h3><% 
+    	if(employeeLogged.getRole().equals("doctor")) {
+    		out.print("Dr. " + employeeLogged.getName());
+    	}else {
+    		out.print(employeeLogged.getName());
+    	}
+    %>!</h3>
   </div>
   <div class="toolbarSummary">
     <div class="summaryItem">
@@ -62,6 +66,8 @@
       <li class="menu-item"><a href="/prova/employeeDashboard/employee.jsp">Consultas</a></li>
       <li class="menu-item"><a href="/prova/employeeDashboard/pacient.jsp">Pacientes</a></li>
       <li class="menu-item"><a href="/prova/employeeDashboard/employee.jsp">Funcionários</a></li>
+      <li class="menu-item"><a href="/prova/employeeDashboard/signout.jsp">Sair</a></li>
+
     </ul>
   </div>
 </div>
