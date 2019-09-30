@@ -10,7 +10,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>helth Now - Cadastrar Paciente</title>
+  <title>helth Now - Cadastrar Consultas</title>
   <link href="https://fonts.googleapis.com/css?family=Cantarell:700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -87,6 +87,7 @@
     }
 
     .menu-item {
+      padding: 24px 40px;
       font-size: 16px;
       cursor: pointer;
       transition: .5s all;
@@ -97,7 +98,6 @@
     .menu-item>a {
       display: block;
       width: 100%;
-      padding: 24px 40px;
     }
 
     .menu-item:hover,
@@ -242,11 +242,8 @@
       margin: 10px;
     }
   </style>
-  <%@page import="java.util.List, Model.Employee, Controller.MainController" %>
-  <%
-	String id = request.getParameter("id");
-	Employee employee = new MainController().getEmployeeById(id);
-%>
+  <%@page import="java.util.List, Model.Pacient" %>
+
 </head>
 
 <body>
@@ -256,62 +253,29 @@
 
     <div class="content-main">
       <div class="navbar mb-40">
-        <h3 class="navbar-page">Detalhes do funcionário</h3>
+        <h3 class="navbar-page">Adicionar Consulta</h3>
         <br />
         <div class="card">
           <div class="card-body">
             <form class="form" action="/prova/employeeDashboard/employee" method="post">
-              <h4 class="formTitleNew">Dados do funcionário</h4>
+              <h4 class="formTitleNew">Dados do paciente</h4>
               <div class="formGroup">
-                <label class="formLabel">Nome completo <span class="required">*</span></label>
-                <input class="formInput" placeholder="nome completo" type="text" name="name" required
-                  value="<% out.print(employee.getName()); %>" />
-              </div>
-              <div class="formGroup">
-                <label class="formLabel">Documento <span class="required">*</span></label>
-                <input class="formInput" placeholder="documento rg ou cpf" type="text" name="documentId" required
-                  value="<% out.print(employee.getDocumentId()); %>" />
-              </div>
-              <div class="formGroup">
-                <label class="formLabel"></label>
-                <input class="formInput" type="hidden" value="<% out.print(employee.getId()); %>" name="id" type="text"
-                  required />
-              </div>
-
-              <div class="formGroup">
-                <label class="formLabel">Telefone <span class="required">*</span></label>
-                <input class="formInput" placeholder="telefone" name="phone" type="text" required
-                  value="<% out.print(employee.getPhone()); %>" />
-              </div>
-              <div class="formGroup">
-                <label class="formLabel">Endereço completo <span class="required">*</span></label>
-                <input class="formInput" placeholder="Endereço completo" type="text" name="address" required
-                  value="<% out.print(employee.getAddress()); %>" />
-              </div>
-              <h4 class="formTitleNew">Dados do login</h4>
-              <div class="formGroup">
-                <label class="formLabel">Login <span class="required">*</span></label>
-                <input class="formInput" placeholder="login" type="text" name="userName" required
-                  value="<% out.print(employee.getLogin().getUserName()); %>" />
-              </div>
-              <div class="formGroup">
-                <label class="formLabel">Senha Padrão <span class="required">*</span></label>
-                <input class="formInput" type="password" name="password"
-                  value="<% out.print(employee.getLogin().getPassword()); %>" required />
-              </div>
-              <div class="formGroup">
-                <label class="formLabel">Perfil <span class="required">*</span></label>
-                <select required name="role" value="<% out.print(employee.getRole()); %>">
+                <label class="formLabel">Selecione o Paciente <span class="required">*</span></label>
+                <select required name="pacientId">
                   <option value="secretary">secretária</option>
                   <option value="doctor">médico</option>
                 </select>
 
               </div>
+              <h4 class="formTitleNew">Dados do médico</h4>
 
               <div class="formGroup">
-                <label class="formLabel"></label>
-                <input class="formInput" type="hidden" value="<% out.print(employee.getLogin().getType()); %>"
-                  name="type" type="text" required />
+                <label class="formLabel">Selecione o médico <span class="required">*</span></label>
+                <select required name="doctorId">
+                  <option value="secretary">secretária</option>
+                  <option value="doctor">médico</option>
+                </select>
+
               </div>
 
               <div class="formGroupButton">
@@ -324,8 +288,6 @@
           </div>
         </div>
 
-
-
       </div>
 
     </div>
@@ -335,6 +297,7 @@
 </body>
 
 </html>
+
 <%
     }
 %>
