@@ -18,6 +18,9 @@ a, a:hover, a:focus, a:active {
 	text-decoration: none;
 	color: #334747;
 }
+a {
+	min-width: 100%;
+}
 body {
   background: #EEEEEE;
 }
@@ -63,13 +66,16 @@ i.fa {
 }
 
 .menu-item {
-  padding: 24px 40px;
   font-size: 16px;
   cursor: pointer;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
 }
-
+.menu-item > a {
+  display:block;
+  width: 100%; 
+   padding: 24px 40px;
+}
 .menu-item:hover , .menu-item:hover > * {
   color: #d64416;
   border-color: #d64416;
@@ -215,15 +221,17 @@ i.fa {
       <h3 class="navbar-page">Funcionários</h3>
     </div>
     <div class="content-action">
-    	<button class="btn-primary">
-    		<a href="/prova/employeeDashboard/newEmployee.jsp">Adicionar +</a>
-    	</button>
+   		<a href="/prova/employeeDashboard/newEmployee.jsp">
+	    	<button class="btn-primary">
+	    		Adicionar +
+	    	</button>
+   		</a>
     </div>
    <% 
-  	List<Employee> employees = new MainController().getAllEmployee();
+  	List<Employee> employeesList = new MainController().getAllEmployee();
   
-   for(int i = 0; i < employees.size(); i++) {
-	   Employee employee = employees.get(i);
+   for(int i = 0; i < employeesList.size(); i++) {
+	   Employee employeeItem = employeesList.get(i);
    %>
       <div class="card">
 	      <div class="card-body">
@@ -231,23 +239,26 @@ i.fa {
 	        </div>
 	        <div class="pacientDocument">
 	          <h3>
-	          	<% out.print(employee.getName()); %>
+	          	<% out.print(employeeItem.getName()); %>
 	          </h3>
 	          <p>
 	          	Função: <%
 	          		String role = "Secretária";
-	          		if (employee.getRole().equals("doctor")) {
+	          		if (employeeItem.getRole().equals("doctor")) {
 	          			role="Médico";
 	          		}
 	          		out.print(role);
 	          	%>
 	          </p>
 	           <p>
-	          	N. documento: <% out.print(employee.getDocumentId()); %>
+	          	N. documento: <% out.print(employeeItem.getDocumentId()); %>
 	          </p>
 	        </div>
 	        <div class="pacientAction">
-	          <a href="">Detalhes</a>
+	          <a 
+	          href="/prova/employeeDashboard/detailEmployee.jsp?id=<%out.print(employeeItem.getId());%>">
+	          	Detalhes
+	          </a>
 	        </div>
 	      </div>
     </div>

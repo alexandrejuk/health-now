@@ -63,13 +63,16 @@ i.fa {
 }
 
 .menu-item {
-  padding: 24px 40px;
   font-size: 16px;
   cursor: pointer;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
 }
-
+.menu-item > a {
+  display:block;
+  width: 100%; 
+   padding: 24px 40px;
+}
 .menu-item:hover , .menu-item:hover > * {
   color: #d64416;
   border-color: #d64416;
@@ -215,9 +218,11 @@ i.fa {
       <h3 class="navbar-page">Pacientes</h3>
     </div>
     <div class="content-action">
-    	<button class="btn-primary">
-    		<a href="/prova/employeeDashboard/newPacient.jsp">Adicionar +</a>
-    	</button>
+    	<a href="/prova/employeeDashboard/newPacient.jsp">
+    		<button class="btn-primary">
+    			Adicionar +
+	    	</button>
+   		</a>
     </div>
    <% 
   	List<Pacient> pacients = new MainController().getAllPacient();
@@ -241,7 +246,10 @@ i.fa {
 	          </p>
 	        </div>
 	        <div class="pacientAction">
-	          <a href="">Detalhes</a>
+	          <a 
+	          href="/prova/employeeDashboard/detailPacient.jsp?id=<%out.print(pacient.getId());%>">
+	          	Detalhes
+	          </a>
 	        </div>
 	      </div>
     </div>
@@ -249,7 +257,7 @@ i.fa {
   
 
   
-    
+ 
   </div>
 </div>
 

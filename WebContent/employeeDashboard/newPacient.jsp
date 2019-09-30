@@ -63,14 +63,17 @@ i.fa {
 }
 
 .menu-item  {
-  padding: 24px 40px;
   font-size: 16px;
   cursor: pointer;
   transition: .5s all;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
 }
-
+.menu-item > a {
+  display:block;
+  width: 100%; 
+   padding: 24px 40px;
+}
 .menu-item:hover , .menu-item:hover > * {
   color: #d64416;
   border-color: #d64416;

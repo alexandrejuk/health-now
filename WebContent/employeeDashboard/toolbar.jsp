@@ -6,17 +6,19 @@
 	int totalDoctor = controller.totalDoctor();
 	
 	Cookie[] cookies = request.getCookies();
-	String cookieEmployee = null;
+	String employeeId = null;
 	
 	if (cookies != null) {
 	 for (Cookie cookie : cookies) {
 	   if (cookie.getName().equals("employee")) {
-		   cookieEmployee = cookie.getValue();
+		   employeeId = cookie.getValue();
 	    }
 	  }
 	}
 	
-	Employee doctor = controller.getEmployeeByDocumentId(cookieEmployee);
+	Employee employeeLogged = controller.getEmployeeByDocumentId(employeeId);
+	
+	
  %>
 
 <div class="toolbar">
@@ -29,7 +31,7 @@
   </div>
   <div class="toolbarHeader">
     <h4> Olá </h4>
-    <h3>Dr. <% out.print(doctor.getName()); %>!</h3>
+    <h3>Dr. <% out.print(employeeLogged.getName()); %>!</h3>
   </div>
   <div class="toolbarSummary">
     <div class="summaryItem">
@@ -56,10 +58,10 @@
   </div>
   <div class="toolbar-menu">
     <ul class="menu">
-      <li class="menu-item">Agendamento</li>
-      <li class="menu-item">Consulta</li>
-      <li class="menu-item"><a href="/prova/employeeDashboard/pacient.jsp">Paciente</a></li>
-      <li class="menu-item"><a href="/prova/employeeDashboard/employee.jsp">Funcionário</a></li>
+      <li class="menu-item"><a href="/prova/employeeDashboard/pacient.jsp">Atendimentos</a></li>
+      <li class="menu-item"><a href="/prova/employeeDashboard/employee.jsp">Consultas</a></li>
+      <li class="menu-item"><a href="/prova/employeeDashboard/pacient.jsp">Pacientes</a></li>
+      <li class="menu-item"><a href="/prova/employeeDashboard/employee.jsp">Funcionários</a></li>
     </ul>
   </div>
 </div>

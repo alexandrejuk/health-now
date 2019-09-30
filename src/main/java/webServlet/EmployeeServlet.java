@@ -10,13 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import Controller.MainController;
 
-@WebServlet (urlPatterns = "/employeeDashboard/pacient")
+@WebServlet (urlPatterns = "/employeeDashboard/employee")
 public class EmployeeServlet extends HttpServlet {
 	private static final long serialVersionUID = 4566138590620477262L;
 	private MainController controller = new MainController();
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String id = req.getParameter("id");		
 		String userName = req.getParameter("userName");
 		String password = req.getParameter("password");
 		String type = req.getParameter("type");
@@ -26,10 +27,14 @@ public class EmployeeServlet extends HttpServlet {
 		String address = req.getParameter("address");
 		String role = req.getParameter("role");
 		
-		controller.newEmployee(userName, password, type, name, documentId, phone, address, role);
-		
-		req.getRequestDispatcher("/employeeDashboard/pacient.jsp").forward(req, resp);
-		
+		if(id != null) {
+			controller.updateEmployee(id, userName, password, type, name, documentId, phone, address, role);
+			req.getRequestDispatcher("/employeeDashboard/employee.jsp").forward(req, resp);
+		}else {			
+			controller.newEmployee(userName, password, type, name, documentId, phone, address, role);
+			req.getRequestDispatcher("/employeeDashboard/employee.jsp").forward(req, resp);
+		}
+			
 	}
 	
 }

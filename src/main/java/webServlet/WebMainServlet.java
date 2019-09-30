@@ -45,7 +45,6 @@ public class WebMainServlet extends HttpServlet {
 			cookie = new Cookie("pacient", pacient.getDocumentId());
 			session.setAttribute("name", pacient.getName());
 			resp.addCookie(cookie);
-			req.setAttribute("pacients", this.controller.getPacientById(pacient.getId()));
 			req.getRequestDispatcher("/pacientDashboard/pacient.jsp").forward(req, resp);
 		}
 		

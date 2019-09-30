@@ -17,6 +17,7 @@ public class PacientServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String id = req.getParameter("id");
 		String userName = req.getParameter("userName");
 		String password = req.getParameter("password");
 		String type = req.getParameter("type");
@@ -26,18 +27,35 @@ public class PacientServlet extends HttpServlet {
 		String address = req.getParameter("address");
 		String status = req.getParameter("status");
 		
-		controller.newPacient(
+		if(id != null) {
+			controller.updatePacient(
+				id, 
 				userName,
-				password,
-				type,
-				name,
-				documentId,
-				phone,
-				address,
+				password, 
+				type, 
+				name, 
+				documentId, 
+				phone, 
+				address, 
 				status
-		);
-		
-		req.getRequestDispatcher("/employeeDashboard/pacient.jsp").forward(req, resp);
+			);
+			
+			req.getRequestDispatcher("/employeeDashboard/pacient.jsp").forward(req, resp);
+			
+		}else {
+			controller.newPacient(
+					userName,
+					password,
+					type,
+					name,
+					documentId,
+					phone,
+					address,
+					status
+			);
+			
+			req.getRequestDispatcher("/employeeDashboard/pacient.jsp").forward(req, resp);
+		}
 		
 	}
 	

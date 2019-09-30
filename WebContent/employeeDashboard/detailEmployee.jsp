@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>helth Now - Cadastrar Funcionário</title>
+<title>helth Now - Cadastrar Paciente</title>
 <link href="https://fonts.googleapis.com/css?family=Cantarell:700" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -63,7 +63,6 @@ i.fa {
 }
 
 .menu-item  {
-  padding: 24px 40px;
   font-size: 16px;
   cursor: pointer;
   transition: .5s all;
@@ -72,9 +71,9 @@ i.fa {
 }
 .menu-item > a {
   display:block;
-  width: 100%; 	
+  width: 100%; 
+   padding: 24px 40px;
 }
-
 .menu-item:hover , .menu-item:hover > * {
   color: #d64416;
   border-color: #d64416;
@@ -208,8 +207,11 @@ i.fa {
 
 
 </style>
-<%@page import="java.util.List, Model.Pacient" %>
-
+<%@page import="java.util.List, Model.Employee, Controller.MainController" %>
+<%
+	String id = request.getParameter("id");
+	Employee employee = new MainController().getEmployeeById(id);
+%>
 </head>
 <body>
 <div class="container">
@@ -218,7 +220,7 @@ i.fa {
   
   <div class="content-main">
     <div class="navbar mb-40">
-      <h3 class="navbar-page">Adicionar funcionário</h3>
+      <h3 class="navbar-page">Detalhes do funcionário</h3>
 	<br />
      <div class="card">
       <div class="card-body">
@@ -226,42 +228,103 @@ i.fa {
        		<h4 class="formTitleNew">Dados do funcionário</h4>
        		<div class="formGroup">
        			<label class="formLabel">Nome completo <span class="required">*</span></label>
-       			<input  class="formInput" placeholder="nome completo" type="text" name="name" required/>
+       			<input
+       				class="formInput"
+					placeholder="nome completo"
+					type="text"
+					name="name"
+					required
+					value="<% out.print(employee.getName()); %>"
+				/>
        		</div>
        		<div class="formGroup">
        			<label class="formLabel">Documento <span class="required">*</span></label>
-       			<input class="formInput" placeholder="documento rg ou cpf"  type="text" name="documentId" required/>
+       			<input 
+       				class="formInput" 
+       				placeholder="documento rg ou cpf" 
+       				type="text" 
+       				name="documentId" 
+       				required
+       				value="<% out.print(employee.getDocumentId()); %>"
+       			/>
        		</div>
-       		<div class="formGroup">
+     		<div class="formGroup">
        			<label class="formLabel"></label>
-       			<input class="formInput" type="hidden" value="pacient" name="type" type="text" required/>
+       			<input 
+       				class="formInput" 
+       				type="hidden" 
+      				value="<% out.print(employee.getId()); %>"
+       				name="id" 
+       				type="text" 
+       				required
+       			/>
        		</div>
+  
        		<div class="formGroup">
        			<label class="formLabel">Telefone <span class="required">*</span></label>
-       			<input class="formInput" placeholder="telefone" name="phone" type="text" required/>
+       			<input 
+       				class="formInput" 
+       				placeholder="telefone" 
+       				name="phone" 
+       				type="text" 
+       				required
+       				value="<% out.print(employee.getPhone()); %>"
+       			/>
        		</div>
        		<div class="formGroup">
        			<label class="formLabel">Endereço completo <span class="required">*</span></label>
-       			<input class="formInput" placeholder="Endereço completo" type="text" name="address" required/>
+       			<input 
+       				class="formInput" 
+       				placeholder="Endereço completo" 
+       				type="text" 
+       				name="address" 
+       				required
+       				value="<% out.print(employee.getAddress()); %>"
+       			/>
        		</div>
        		<h4 class="formTitleNew">Dados do login</h4>
      		<div class="formGroup">
        			<label class="formLabel">Login <span class="required">*</span></label>
-       			<input  class="formInput" placeholder="login" type="text" name="userName" required/>
+       			<input  
+	       			class="formInput"
+					placeholder="login" 
+					type="text" 
+					name="userName" 
+					required
+					value="<% out.print(employee.getLogin().getUserName()); %>"
+				/>
        		</div>
        		<div class="formGroup">
+       			<label class="formLabel">Senha Padrão</label>
+       			<input  
+       				class="formInput" 
+       				type="password"
+       				name="password" 
+       				value="<% out.print(employee.getLogin().getPassword()); %>"
+       				required
+       			/>
+       		</div>
+       			<div class="formGroup">
        			<label class="formLabel">Login <span class="required">*</span></label>
-				<select required name="role">
+				<select required name="role" value="<% out.print(employee.getRole()); %>">
 				  <option value="secretary">secretária</option>
 				  <option value="doctor">médico</option>
 				</select>
        			
        		</div>
-
+       		
        		<div class="formGroup">
-       			<label class="formLabel">Senha Padrão</label>
-       			<input  class="formInput" type="text" readonly name="password" value="123456e" required/>
+       			<label class="formLabel"></label>
+       			<input 
+       				class="formInput" 
+       				type="hidden" 
+      				value="<% out.print(employee.getLogin().getType()); %>"
+       				name="type" 
+       				type="text" 
+       				required
+       			/>
        		</div>
+       		
        		<div class="formGroupButton">
 		    	<button class="btn-primary btn-block">
 		    		Salvar
@@ -274,7 +337,7 @@ i.fa {
  
   
 
-  
+  </div>
     
   </div>
 </div>

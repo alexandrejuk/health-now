@@ -16,10 +16,10 @@ public class MainController {
 		Employee fakeEmploye = new Employee(
 			"" + index,
 			role + index,
-			"123456" + role,
+			"123456e",
 			"employee",
 			"fake " + role + " "+ index,
-			role + "12345678000" + index,
+			"" + index,
 			role,
 			"11987654321",
 			"fake address employee, 899, FAE, 123434 - 000" + index
@@ -35,7 +35,7 @@ public class MainController {
 			"123456p",
 			"pacient",
 			"fake pacient " + index,
-			"9876554321000" + index,
+			"" + index,
 			"1209876554321",
 			"fake address pacient, 100, FAP, 123434 - 000" + index,
 			"A"
@@ -48,8 +48,8 @@ public class MainController {
 		try {
 			for(int item = 1; item <= 10; item++) {
 				PACIENTS.add(createPacient(item));
-				EMPLOYEES.add(createEmployee(item, "doctor"));
-				EMPLOYEES.add(createEmployee(item, "secretary"));
+				EMPLOYEES.add(createEmployee((item+100), "doctor"));
+				EMPLOYEES.add(createEmployee((item), "secretary"));
 			};
 		} 
 		catch (Exception e) { }
@@ -91,7 +91,6 @@ public class MainController {
 	
 	public Pacient getPacientById(String id) {
 		Pacient foundPacient = null;
-
 		for(int i = 0; i < PACIENTS.size(); i++) {
 			Pacient pacient = PACIENTS.get(i);
 		    if (pacient.getId().equals(id)) {
@@ -100,6 +99,18 @@ public class MainController {
 		}
 		
 		return foundPacient;
+	}
+	
+	public Employee getEmployeeById(String id) {
+		Employee foundEmployee = null;
+		for(int i = 0; i < EMPLOYEES.size(); i++) {
+			Employee employee = EMPLOYEES.get(i);
+		    if (employee.getId().equals(id)) {
+		    	foundEmployee = EMPLOYEES.get(i);
+		    }
+		}
+		
+		return foundEmployee;
 	}
 	
 	public int totalPacient() {
@@ -119,10 +130,9 @@ public class MainController {
 	
 	public Employee getEmployeeByDocumentId(String documentId) {
 		Employee foundEmployee = null;
-
 		for(int i = 0; i < EMPLOYEES.size(); i++) {
 			Employee employee = EMPLOYEES.get(i);
-		    if (employee.getDocumentId().equals(documentId)) {
+		    if (employee.getId().equals(documentId)) {
 		    	foundEmployee = EMPLOYEES.get(i);
 		    }
 		}
@@ -182,5 +192,73 @@ public class MainController {
 		EMPLOYEES.add(employee);
 		
 		return employee;
+	}
+	
+	public Pacient updatePacient(
+			String id,
+			String userName,
+			String password,
+			String type,
+			String name,
+			String documentId,
+			String phone,
+			String address,
+			String status
+		) {
+		
+		Pacient pacient = new Pacient(
+			id,
+			userName,
+			password,
+			type,
+			name,
+			documentId,
+			phone,
+			address,
+			status
+		);
+		
+		for(int i = 0; i < PACIENTS.size(); i++) {
+		    if (PACIENTS.get(i).getId().equals(id)) {
+		    	PACIENTS.set(i, pacient);
+		    }
+		}
+		
+		return pacient;
+		
+	}
+	
+	public Employee updateEmployee(
+			String id,
+			String userName,
+			String password,
+			String type,
+			String name,
+			String documentId,
+			String phone,
+			String address,
+			String role
+		) {
+		
+		Employee employee = new Employee(
+			id,
+			userName,
+			password,
+			type,
+			name,
+			documentId,
+			phone,
+			address,
+			role
+		);
+		
+		for(int i = 0; i < EMPLOYEES.size(); i++) {
+		    if (EMPLOYEES.get(i).getId().equals(id)) {
+		    	EMPLOYEES.set(i, employee);
+		    }
+		}
+		
+		return employee;
+		
 	}
 }
