@@ -5,12 +5,30 @@ import java.util.List;
 
 import Model.Employee;
 import Model.Login;
+import Model.MedicalRecords;
 import Model.Pacient;
 
 public class MainController {
 
 	private static List<Employee> EMPLOYEES = new ArrayList<Employee>();
 	private static List<Pacient> PACIENTS = new ArrayList<Pacient>();
+	private static List<MedicalRecords> SCHEDULES = new ArrayList<MedicalRecords>();
+	
+	private static MedicalRecords createMedicalRecords(int index) {		
+		MedicalRecords fakeMedicalRecords = new MedicalRecords(
+			"" + index,
+			PACIENTS.get(index).getId(),
+			"101",
+			"Nausea e dores na cabeça",
+			"B+",
+			"2019-09-07",
+			"waiting_doctor",
+			""
+		);
+		
+		return fakeMedicalRecords;
+	};
+	
 	
 	private static Employee createEmployee(int index, String role) {		
 		Employee fakeEmploye = new Employee(
@@ -46,11 +64,20 @@ public class MainController {
 	
 	static {
 		try {
-			for(int item = 1; item <= 10; item++) {
-				PACIENTS.add(createPacient(item));
+			
+			for(int item = 1; item <= 4; item++) {
 				EMPLOYEES.add(createEmployee((item+100), "doctor"));
 				EMPLOYEES.add(createEmployee((item), "secretary"));
 			};
+			
+			for(int item = 1; item <= 3; item++) {
+				PACIENTS.add(createPacient(item));
+			};
+			
+			for(int item = 1; item <= 5; item++) {
+				SCHEDULES.add(createMedicalRecords(item));
+			};
+			
 		} 
 		catch (Exception e) { }
 	}
@@ -81,6 +108,10 @@ public class MainController {
 		return foundPacient;
 	}
 	
+	public List<MedicalRecords> getAllShedule() {
+		return SCHEDULES;
+	}
+	
 	public List<Employee> getAllEmployee() {
 		return EMPLOYEES;
 	}
@@ -99,6 +130,19 @@ public class MainController {
 		}
 		
 		return foundPacient;
+	}
+	
+	
+	public MedicalRecords getScheduleById(String id) {
+		MedicalRecords foundShedule = null;
+		for(int i = 0; i < SCHEDULES.size(); i++) {
+			MedicalRecords shedule = SCHEDULES.get(i);
+		    if (shedule.getId().equals(id)) {
+		    	foundShedule = shedule;
+		    }
+		}
+		
+		return foundShedule;
 	}
 	
 	public Employee getEmployeeById(String id) {
@@ -166,6 +210,59 @@ public class MainController {
 		
 		return pacient;
 	}
+	public MedicalRecords newShedule(
+			String pacientId,
+			String doctorId,
+			String symptoms,
+			String bloodType,
+			String examDate,
+			String status
+		) {
+		String id = "" + (SCHEDULES.size() + 1);
+		MedicalRecords shedule = new MedicalRecords(
+			id,
+			pacientId,
+			doctorId,
+			symptoms,
+			bloodType,
+			examDate,
+			status,
+			""
+		);	
+		SCHEDULES.add(shedule);
+		
+		return shedule;
+	}
+	
+	public MedicalRecords updateShedule(
+			String id,
+			String pacientId,
+			String doctorId,
+			String symptoms,
+			String bloodType,
+			String examDate,
+			String status
+		) {
+		MedicalRecords shedule = new MedicalRecords(
+			id,
+			pacientId,
+			doctorId,
+			symptoms,
+			bloodType,
+			examDate,
+			status,
+			""
+		);	
+		
+		for(int i = 0; i < SCHEDULES.size(); i++) {
+		    if (SCHEDULES.get(i).getId().equals(id)) {
+		    	SCHEDULES.set(i, shedule);
+		    }
+		}
+				
+		return shedule;
+	}
+	
 	
 	public Employee newEmployee(
 			String userName,
@@ -260,5 +357,37 @@ public class MainController {
 		
 		return employee;
 		
+	}
+	
+	public int totalSchedule(String doctorId) {
+		int total = 0;
+		if(doctorId == null) 
+			return total;
+		for(int i = 0; i < SCHEDULES.size(); i++) {
+			
+			if(
+				SCHEDULES.get(i).getStatus().equals("waiting_doctor") && 
+				SCHEDULES.get(i).getDoctorId().equals(doctorId)
+			) {
+				total += 1;
+			}
+		}
+		return total;
+	}
+	
+	public int totalScheduleFinish(String doctorId) {
+		int total = 0;
+		if(doctorId == null) 
+			return total;
+		for(int i = 0; i < SCHEDULES.size(); i++) {
+					
+					if(
+						SCHEDULES.get(i).getStatus().equals("finished") && 
+						SCHEDULES.get(i).getDoctorId().equals(doctorId)
+					) {
+						total += 1;
+					}
+				}
+		return total;
 	}
 }

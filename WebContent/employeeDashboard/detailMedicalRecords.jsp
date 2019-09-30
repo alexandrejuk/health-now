@@ -1,16 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page import="java.util.List, Model.Pacient, Model.Employee, Model.MedicalRecords, Controller.MainController" language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
     if((session.getAttribute("employee") == null)||(session.getAttribute("employee") == "")) {
     	response.sendRedirect("/prova/index.html");
 } else {
+	
+		String id = request.getParameter("id");
+	  	MainController controllerMedical = new MainController();
+		MedicalRecords schedule = controllerMedical.getScheduleById(id);
+		Employee employee = controllerMedical.getEmployeeById(schedule.getDoctorId());
+		Pacient pacient = controllerMedical.getPacientById(schedule.getPacientId()); 
+	
 %>
 <!DOCTYPE html>
 <html>
 
 <head>
   <meta charset="UTF-8">
-  <title>helth Now - Cadastrar Consultas</title>
+  <title>helth Now - Detalhe Consulta</title>
   <link href="https://fonts.googleapis.com/css?family=Cantarell:700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -242,7 +249,6 @@
       margin: 10px;
     }
   </style>
-  <%@page import="java.util.List, Model.Pacient" %>
 
 </head>
 
@@ -253,76 +259,47 @@
 
     <div class="content-main">
       <div class="navbar mb-40">
-        <h3 class="navbar-page">Adicionar Consulta</h3>
+        <h3 class="navbar-page">Detalhe Consulta</h3>
         <br />
         <div class="card">
           <div class="card-body">
-            <form class="form" action="/prova/employeeDashboard/medicalRecords" method="post">
-              <h4 class="formTitleNew">Dados do paciente</h4>
-              <div class="formGroup">
-                <label class="formLabel">Selecione o Paciente <span class="required">*</span></label>
-                <select required name="pacientId">
-                <% 
-				  	List<Pacient> pacients = new MainController().getAllPacient();
-				  
-				   for(int i = 0; i < pacients.size(); i++) {
-					   Pacient pacient = pacients.get(i);
-			   %>
-                  <option value="<%out.print(pacient.getId());%>">
-                  	<%out.print(pacient.getName());%>
-                  </option>
-              <% } %>
-                </select>
+            <div class="form" >
+              <h4 class="formTitleNew">Dados da consulta</h4>
+             
+             <div class="formGroup">
+                <label class="formLabel">Nome do paciente<span class="required">*</span></label>
+                <input class="formInput" value="<% out.print(pacient.getName()); %>" readonly="readonly" placeholder="Nome do paciente" type="text" />
               </div>
+              
               <div class="formGroup">
                 <label class="formLabel">Tipo sanguineo<span class="required">*</span></label>
-                <input class="formInput" placeholder="Tipo sanguineo" type="text" name="bloodType" required />
+                <input class="formInput" value="<% out.print(schedule.getBloodType()); %>"  readonly="readonly" placeholder="Tipo sanguineo" type="text" />
               </div>
               
               <div class="formGroup">
                 <label class="formLabel">Sintoma<span class="required">*</span></label>
-                <input class="formInput" placeholder="Sintoma" type="text" name="symptoms" required />
+                <input class="formInput" value="<% out.print(schedule.getSymptoms()); %>" readonly="readonly" placeholder="Sintoma" type="text"/>
               </div>
               
               <div class="formGroup">
                 <label class="formLabel">Data do Exame<span class="required">*</span></label>
-                <input class="formInput" placeholder="Data do Exame" type="date" name="examDate" required />
+                <input class="formInput" value="<% out.print(schedule.getExamDate()); %>" readonly="readonly" placeholder="Data do Exame" type="date" />
               </div>
               
               <h4 class="formTitleNew">Dados do médico</h4>
 
-              <div class="formGroup">
-                <label class="formLabel">Selecione o médico <span class="required">*</span></label>
-                <select required name="doctorId">
-                   <% 
-				  	List<Employee> employees = new MainController().getAllEmployee();
-				  
-				   for(int i = 0; i < employees.size(); i++) {
-					   Employee employee = employees.get(i);
-					   if(employee.getRole().equals("doctor")) {					   
-			   %>
-                  <option value="<%
-                  	if(employee.getRole().equals("doctor")) {
-                  		out.print(employee.getId());
-                  	}
-                  %>">
-                  	<%if(employee.getRole().equals("doctor")) {
-                  		out.print(employee.getName());
-                  	}
-                  	%>
-                  </option>
-              <%  }} %>
-                </select>
-
-              </div>
-
-              <div class="formGroupButton">
-                <button class="btn-primary btn-block">
-                  Salvar
-                </button>
-              </div>
-
-            </form>
+	           <div class="formGroup">
+	              <label class="formLabel">Nome do médico<span class="required">*</span></label>
+	              <input class="formInput" value="<% out.print(employee.getName()); %>" readonly="readonly" placeholder="Data do Exame" type="text" />
+	            </div>
+				<div class="formGroupButton">
+				 <a href="/prova/employeeDashboard/medicalRecords.jsp">
+			          <button class="btn-primary btn-block">
+			            Voltar
+			          </button>
+			        </a>
+				 </div>
+            </div>
           </div>
         </div>
 

@@ -10,7 +10,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>helth Now - Cadastrar Consultas</title>
+  <title>helth Now - dashboard empregados</title>
   <link href="https://fonts.googleapis.com/css?family=Cantarell:700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -61,15 +61,6 @@
       padding: 0 40px
     }
 
-    .formGroup>select {
-      display: block;
-      width: calc(100% - 8px);
-      padding: 10px;
-      border: 1px solid #c7c7c7;
-      border-radius: 3px;
-      background: transparent;
-    }
-
     .summaryItem {
       font-family: arial;
       width: 95px;
@@ -87,10 +78,8 @@
     }
 
     .menu-item {
-      padding: 24px 40px;
       font-size: 16px;
       cursor: pointer;
-      transition: .5s all;
       border-top: 1px solid transparent;
       border-bottom: 1px solid transparent;
     }
@@ -98,6 +87,7 @@
     .menu-item>a {
       display: block;
       width: 100%;
+      padding: 24px 40px;
     }
 
     .menu-item:hover,
@@ -242,7 +232,7 @@
       margin: 10px;
     }
   </style>
-  <%@page import="java.util.List, Model.Pacient" %>
+  <%@page import="java.util.List, Model.Pacient, Controller.MainController" %>
 
 </head>
 
@@ -253,81 +243,37 @@
 
     <div class="content-main">
       <div class="navbar mb-40">
-        <h3 class="navbar-page">Adicionar Consulta</h3>
-        <br />
-        <div class="card">
-          <div class="card-body">
-            <form class="form" action="/prova/employeeDashboard/medicalRecords" method="post">
-              <h4 class="formTitleNew">Dados do paciente</h4>
-              <div class="formGroup">
-                <label class="formLabel">Selecione o Paciente <span class="required">*</span></label>
-                <select required name="pacientId">
-                <% 
-				  	List<Pacient> pacients = new MainController().getAllPacient();
-				  
-				   for(int i = 0; i < pacients.size(); i++) {
-					   Pacient pacient = pacients.get(i);
-			   %>
-                  <option value="<%out.print(pacient.getId());%>">
-                  	<%out.print(pacient.getName());%>
-                  </option>
-              <% } %>
-                </select>
-              </div>
-              <div class="formGroup">
-                <label class="formLabel">Tipo sanguineo<span class="required">*</span></label>
-                <input class="formInput" placeholder="Tipo sanguineo" type="text" name="bloodType" required />
-              </div>
-              
-              <div class="formGroup">
-                <label class="formLabel">Sintoma<span class="required">*</span></label>
-                <input class="formInput" placeholder="Sintoma" type="text" name="symptoms" required />
-              </div>
-              
-              <div class="formGroup">
-                <label class="formLabel">Data do Exame<span class="required">*</span></label>
-                <input class="formInput" placeholder="Data do Exame" type="date" name="examDate" required />
-              </div>
-              
-              <h4 class="formTitleNew">Dados do médico</h4>
-
-              <div class="formGroup">
-                <label class="formLabel">Selecione o médico <span class="required">*</span></label>
-                <select required name="doctorId">
-                   <% 
-				  	List<Employee> employees = new MainController().getAllEmployee();
-				  
-				   for(int i = 0; i < employees.size(); i++) {
-					   Employee employee = employees.get(i);
-					   if(employee.getRole().equals("doctor")) {					   
-			   %>
-                  <option value="<%
-                  	if(employee.getRole().equals("doctor")) {
-                  		out.print(employee.getId());
-                  	}
-                  %>">
-                  	<%if(employee.getRole().equals("doctor")) {
-                  		out.print(employee.getName());
-                  	}
-                  	%>
-                  </option>
-              <%  }} %>
-                </select>
-
-              </div>
-
-              <div class="formGroupButton">
-                <button class="btn-primary btn-block">
-                  Salvar
-                </button>
-              </div>
-
-            </form>
+        <h3 class="navbar-page">Agenda</h3>
+      </div>
+      <% 
+  	List<Pacient> pacients = new MainController().getAllPacient();
+  
+   for(int i = 0; i < pacients.size(); i++) {
+	   Pacient pacient = pacients.get(i);
+   %>
+      <div class="card">
+        <div class="card-body">
+          <div class="pacientInfo">
+            <span class="pacientStatus" title="ativo">
+              <% out.print(pacient.getStatus()); %>
+            </span>
+          </div>
+          <div class="pacientDocument">
+            <h3>
+              <% out.print(pacient.getName()); %>
+            </h3>
+            <p>
+              N. documento: <% out.print(pacient.getDocumentId()); %>
+            </p>
+          </div>
+          <div class="pacientAction">
+            <a href="/prova/employeeDashboard/detailMedicalRecords.jsp?id=<%out.print(pacient.getId());%>">
+              Detalhes
+            </a>
           </div>
         </div>
-
       </div>
-
+      <% } %>
     </div>
   </div>
 

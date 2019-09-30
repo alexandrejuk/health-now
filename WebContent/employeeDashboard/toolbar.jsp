@@ -4,7 +4,6 @@
  	MainController controller = new MainController();
 	int totalPacient = controller.totalPacient();
 	int totalDoctor = controller.totalDoctor();
-	
 	Cookie[] cookies = request.getCookies();
 	String employeeId = null;
 	
@@ -15,7 +14,10 @@
 	  }
 
 	Employee employeeLogged = controller.getEmployeeByDocumentId(employeeId);
+	String doctorId = employeeLogged.getId();
 	
+	int totalShedule = controller.totalSchedule(doctorId);
+	int totalSheduleFinished = controller.totalScheduleFinish(doctorId);
  %>
 
 <div class="toolbar">
@@ -24,7 +26,7 @@
       src="https://www.freelogodesign.org/file/app/client/thumb/cd30edb4-f0c4-4c9b-b48c-b314103eb541_200x200.png?1569774881972">
   </div>
   <div class="toolbarHeader">
-    <h4> Olï¿½ </h4>
+    <h4> Olá </h4>
     <h3><% 
     	if(employeeLogged.getRole().equals("doctor")) {
     		out.print("Dr. " + employeeLogged.getName());
@@ -42,26 +44,26 @@
     <div class="summaryItem">
       <i class="fa fa-book" aria-hidden="true"></i>
       <span class="summaryItem-title">Consultas</span>
-      <h3>2500</h3>
+      <h3><% out.print(totalSheduleFinished); %></h3>
     </div>
     <div class="summaryItem">
       <i class="fa fa-briefcase" aria-hidden="true"></i>
-      <span class="summaryItem-title">Mï¿½dicos</span>
+      <span class="summaryItem-title">Médicos</span>
       <h3><% out.print(totalDoctor); %></h3>
     </div>
     <div class="summaryItem">
       <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
-      <span class="summaryItem-title">Agendamentos</span>
-      <h3>2500</h3>
+      <span class="summaryItem-title">Agenda</span>
+      <h3><% out.print(totalShedule); %></h3>
     </div>
     <div class="bd-bottom"></div>
   </div>
   <div class="toolbar-menu">
     <ul class="menu">
-      <li class="menu-item"><a href="/prova/employeeDashboard/pacient.jsp">Atendimentos</a></li>
+      <li class="menu-item"><a href="/prova/employeeDashboard/schedule.jsp">Agenda</a></li>
       <li class="menu-item"><a href="/prova/employeeDashboard/medicalRecords.jsp">Consultas</a></li>
       <li class="menu-item"><a href="/prova/employeeDashboard/pacient.jsp">Pacientes</a></li>
-      <li class="menu-item"><a href="/prova/employeeDashboard/employee.jsp">Funcionï¿½rios</a></li>
+      <li class="menu-item"><a href="/prova/employeeDashboard/employee.jsp">Funcionários</a></li>
       <li class="menu-item"><a href="/prova/employeeDashboard/signout.jsp">Sair</a></li>
 
     </ul>

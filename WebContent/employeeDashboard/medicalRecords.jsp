@@ -232,8 +232,16 @@
     .formGroupButton {
       margin: 10px;
     }
+    .mt-20 {
+    	margin: 20px 0 !important;
+    	display: block;
+    	width: 200px;
+    }
+    .mt-10 {
+    margin: 10px 0 !important;
+    }
   </style>
-  <%@page import="java.util.List, Model.Pacient, Controller.MainController" %>
+  <%@page import="java.util.List, Model.Pacient, Model.MedicalRecords, Controller.MainController" %>
 
 </head>
 
@@ -254,28 +262,37 @@
         </a>
       </div>
       <% 
-  	List<Pacient> pacients = new MainController().getAllPacient();
+  	List<MedicalRecords> shedules = new MainController().getAllShedule();
   
-   for(int i = 0; i < pacients.size(); i++) {
-	   Pacient pacient = pacients.get(i);
+   for(int i = 0; i < shedules.size(); i++) {
+	   MedicalRecords shedule = shedules.get(i);
    %>
       <div class="card">
         <div class="card-body">
-          <div class="pacientInfo">
-            <span class="pacientStatus" title="ativo">
-              <% out.print(pacient.getStatus()); %>
+          <div class="pacientDocument">
+            <h3 class="mt-10">
+              Paciente: <% out.print(controller.getPacientById(shedule.getPacientId()).getName()); %>
+            </h3>
+            <p class="mt-10">
+              Médico: <% out.print(controller.getEmployeeById(shedule.getDoctorId()).getName()); %>
+            </p>
+            <p class="mt-10">
+              Data: <% out.print(shedule.getExamDate()); %>
+            </p>
+            <span class="pacientStatus mt-20" title="ativo">
+              <% 
+              	if(shedule.getStatus().equals("waiting_doctor")) {  
+            	  out.print("Aguardando Atendimento");
+              	}
+              
+				if(shedule.getStatus().equals("finished")) {  
+					out.print("Finalizado");
+				}
+              %>
             </span>
           </div>
-          <div class="pacientDocument">
-            <h3>
-              <% out.print(pacient.getName()); %>
-            </h3>
-            <p>
-              N. documento: <% out.print(pacient.getDocumentId()); %>
-            </p>
-          </div>
           <div class="pacientAction">
-            <a href="/prova/employeeDashboard/detailPacient.jsp?id=<%out.print(pacient.getId());%>">
+            <a href="/prova/employeeDashboard/detailMedicalRecords.jsp?id=<%out.print(shedule.getId());%>">
               Detalhes
             </a>
           </div>
