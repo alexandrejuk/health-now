@@ -5,9 +5,11 @@ import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Controller.MainController;
 import Model.Employee;
@@ -21,23 +23,38 @@ public class WebMainServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Cookie cookie;
+		HttpSession session = req.getSession();
 		String userName = req.getParameter("userName");
 		String password = req.getParameter("password");
-		
+
 		resp.setContentType("text/html");
 		PrintWriter out = resp.getWriter();
 		
 		Employee employee = controller.loginEmployee(userName, password);
 		Pacient pacient = controller.loginPacient(userName, password);
 		
-		if(employee != null) 
-			out.println(employee.getName());
+		if(employee != null) {			
+			cookie = new Cookie("employee", employee.getDocumentId());
+			session.setAttribute("name", employee.getName());
+			resp.addCookie(cookie);
+			req.getRequestDispatcher("/employeeDashboard/pacient.jsp").forward(req, resp);
+		}
 		
-		if(pacient != null) 
-			out.println(pacient.getName());
+		if(pacient != null) {
+			cookie = new Cookie("pacient", pacient.getDocumentId());
+			session.setAttribute("name", pacient.getName());
+			resp.addCookie(cookie);
+			req.setAttribute("pacients", this.controller.getPacientById(pacient.getId()));
+			req.getRequestDispatcher("/pacientDashboard/pacient.jsp").forward(req, resp);
+		}
 		
 		if(employee == null && pacient == null)
-			out.println("Usuário não encontrado, login ou senha inválidos!");		
+			out.println("Usuário não encontrado, login ou senha inválidos!");
+	
+		out.flush();
+		out.close();
 		
 	}
+
 }

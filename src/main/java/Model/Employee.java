@@ -1,6 +1,7 @@
 package Model;
 
 public class Employee {
+	private String id;
 	private String name;
 	private String documentId;
 	private String role;
@@ -9,6 +10,7 @@ public class Employee {
 	private Login login;
 	
 	public Employee(
+		String id,
 		String userName,
 		String password,
 		String type,
@@ -18,6 +20,7 @@ public class Employee {
 		String phone,
 		String address
 	) {
+		this.id = id;
 		this.name = name;
 		this.documentId = documentId;
 		this.role = role;
@@ -74,4 +77,11 @@ public class Employee {
 		this.login = login;
 	}
 	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }
