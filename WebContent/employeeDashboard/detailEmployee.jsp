@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+    if((session.getAttribute("employee") == null)||(session.getAttribute("employee") == "")) {
+    	response.sendRedirect("/prova/index.html");
+} else {
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -345,3 +350,6 @@ i.fa {
 
 </body>
 </html>
+<%
+    }
+%>
