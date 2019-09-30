@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Controller.MainController;
+import Model.MedicalRecords;
 
 @WebServlet (urlPatterns = "/employeeDashboard/medicalRecords")
 public class MedicalRecordsServlet extends HttpServlet {
@@ -24,32 +25,33 @@ public class MedicalRecordsServlet extends HttpServlet {
 		String bloodType = req.getParameter("bloodType");
 		String symptoms = req.getParameter("symptoms");
 		String examDate = req.getParameter("examDate");
-		String status = "waiting_doctor";
+		String status = req.getParameter("status");
+		String treatment = req.getParameter("treatment");
 				
-		if(id != null) {
-			controller.updateShedule(
-					id,
-					pacientId, 
-					doctorId, 
-					symptoms,
-					bloodType, 
-					examDate,
-					status
-			);
-			req.getRequestDispatcher("/employeeDashboard/medicalRecords.jsp").forward(req, resp);
-		}else {			
-			controller.newShedule(
-					pacientId, 
-					doctorId, 
-					symptoms,
-					bloodType, 
-					examDate,
-					status
-			);
-			req.getRequestDispatcher("/employeeDashboard/medicalRecords.jsp").forward(req, resp);
-		}
-		
-		
+			if(id != null) {
+				MedicalRecords schedule = controller.getScheduleById(id);
+				controller.updateShedule(
+						id,
+						schedule.getPacientId(), 
+						schedule.getDoctorId(), 
+						schedule.getSymptoms(),
+						schedule.getBloodType(), 
+						schedule.getExamDate(),
+						status,
+						treatment
+				);
+				req.getRequestDispatcher("/employeeDashboard/schedule.jsp").forward(req, resp);
+			}else {			
+				controller.newShedule(
+						pacientId, 
+						doctorId, 
+						symptoms,
+						bloodType, 
+						examDate,
+						status
+				);
+				req.getRequestDispatcher("/employeeDashboard/medicalRecords.jsp").forward(req, resp);
+			}		
 		
 	}
 	

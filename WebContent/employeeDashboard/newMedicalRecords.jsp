@@ -289,6 +289,12 @@
                 <input class="formInput" placeholder="Data do Exame" type="date" name="examDate" required />
               </div>
               
+                <div class="formGroup">
+                <label class="formLabel"></label>
+                <input class="formInput" value="waiting_doctor" type="hidden" name="status"/>
+              </div>
+              
+              
               <h4 class="formTitleNew">Dados do médico</h4>
 
               <div class="formGroup">

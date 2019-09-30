@@ -1,4 +1,4 @@
-<%@page import="Model.Employee"%>
+<%@page import="Model.Employee, Model.Pacient"%>
 <%@page import="java.util.List, Controller.MainController" %>
 <% 
  	MainController controller = new MainController();
@@ -15,9 +15,8 @@
 
 	Employee employeeLogged = controller.getEmployeeByDocumentId(employeeId);
 	String doctorId = employeeLogged.getId();
-	
 	int totalShedule = controller.totalSchedule(doctorId);
-	int totalSheduleFinished = controller.totalScheduleFinish(doctorId);
+	int totalSheduleFinished = controller.totalScheduleFinish(doctorId);;
  %>
 
 <div class="toolbar">
@@ -60,8 +59,14 @@
   </div>
   <div class="toolbar-menu">
     <ul class="menu">
-      <li class="menu-item"><a href="/prova/employeeDashboard/schedule.jsp">Agenda</a></li>
-      <li class="menu-item"><a href="/prova/employeeDashboard/medicalRecords.jsp">Consultas</a></li>
+      <%
+      	if(employeeLogged.getRole().equals("doctor")) {
+      %>
+      	<li class="menu-item"><a href="/prova/employeeDashboard/schedule.jsp">Agenda</a></li>
+      
+      <%}else { %>
+      	<li class="menu-item"><a href="/prova/employeeDashboard/medicalRecords.jsp">Consultas</a></li>
+      <% } %>
       <li class="menu-item"><a href="/prova/employeeDashboard/pacient.jsp">Pacientes</a></li>
       <li class="menu-item"><a href="/prova/employeeDashboard/employee.jsp">Funcionários</a></li>
       <li class="menu-item"><a href="/prova/employeeDashboard/signout.jsp">Sair</a></li>

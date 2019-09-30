@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-    if((session.getAttribute("employee") == null)||(session.getAttribute("employee") == "")) {
+    if((session.getAttribute("pacient") == null)||(session.getAttribute("pacient") == "")) {
     	response.sendRedirect("/prova/index.html");
 } else {
 %>
@@ -10,7 +10,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>helth Now - dashboard empregados</title>
+  <title>helth Now - dashboard paciente</title>
   <link href="https://fonts.googleapis.com/css?family=Cantarell:700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -75,6 +75,7 @@
 
     .menu {
       list-style: none;
+      width: 282x;
     }
 
     .menu-item {
@@ -115,7 +116,7 @@
     .navbar {
       background: #fff;
       height: 25px;
-      width: calc(100vw - 350px);
+      width: calc(100vw - 278px);
       padding: 25px;
     }
 
@@ -240,6 +241,10 @@
     .mt-10 {
     margin: 10px 0 !important;
     }
+    
+       .mt-30 {
+    margin: 30px 0 0 0 !important;
+    }
   </style>
   <%@page import="java.util.List, Model.Pacient, Model.MedicalRecords, Controller.MainController" %>
 
@@ -248,18 +253,11 @@
 <body>
   <div class="container">
 
-    <%@ include file="toolbar.jsp" %>
+    <%@ include file="toolbarPacient.jsp" %>
 
     <div class="content-main">
       <div class="navbar mb-40">
-        <h3 class="navbar-page">Consultas</h3>
-      </div>
-      <div class="content-action">
-        <a href="/prova/employeeDashboard/newMedicalRecords.jsp">
-          <button class="btn-primary">
-            Adicionar +
-          </button>
-        </a>
+        <h3 class="navbar-page">Minhas Consultas</h3>
       </div>
       <% 
   	MainController schedulesController = new MainController();
@@ -267,7 +265,7 @@
   	
    for(int i = 0; i < shedules.size(); i++) {
 	   MedicalRecords schedule = shedules.get(i);
-	  
+	  if (schedule.getPacientId().equals(pacientLogged.getId())) {
    %>
       <div class="card">
         <div class="card-body">
@@ -294,13 +292,13 @@
             </span>
           </div>
           <div class="pacientAction">
-            <a href="/prova/employeeDashboard/detailMedicalRecords.jsp?id=<%out.print(schedule.getId());%>">
+            <a href="/prova/employeeDashboard/detailMedicalRecordsPacient.jsp?id=<%out.print(schedule.getId());%>">
               Detalhes
             </a>
           </div>
         </div>
       </div>
-      <% } %>
+      <% }} %>
 
     </div>
   </div>

@@ -43,9 +43,9 @@ public class WebMainServlet extends HttpServlet {
 		
 		if(pacient != null) {
 			cookie = new Cookie("pacient", pacient.getDocumentId());
-			session.setAttribute("name", pacient.getName());
+			session.setAttribute("pacient", pacient.getName());
 			resp.addCookie(cookie);
-			req.getRequestDispatcher("/pacientDashboard/pacient.jsp").forward(req, resp);
+			req.getRequestDispatcher("/employeeDashboard/medicalRecordsPacient.jsp").forward(req, resp);
 		}
 		
 		if(employee == null && pacient == null)

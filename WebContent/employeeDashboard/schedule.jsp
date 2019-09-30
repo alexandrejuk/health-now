@@ -1,3 +1,4 @@
+<%@page import="Model.MedicalRecords, Controller.MainController"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -231,6 +232,22 @@
     .formGroupButton {
       margin: 10px;
     }
+    .filter {
+    	width: calc(100%/2);
+    	margin: 0 14px; 
+    	display: flex;
+    }
+   .mtb-10 {
+   	margin: 20px 0 0 0;
+   }
+.mt-10 {
+	margin: 10px 0; 
+}
+ .mt-20 {
+    	margin: 20px 0 !important;
+    	display: block;
+    	width: 200px;
+    }
   </style>
   <%@page import="java.util.List, Model.Pacient, Controller.MainController" %>
 
@@ -242,38 +259,51 @@
     <%@ include file="toolbar.jsp" %>
 
     <div class="content-main">
-      <div class="navbar mb-40">
+      <div class="navbar ">
         <h3 class="navbar-page">Agenda</h3>
       </div>
-      <% 
-  	List<Pacient> pacients = new MainController().getAllPacient();
-  
-   for(int i = 0; i < pacients.size(); i++) {
-	   Pacient pacient = pacients.get(i);
+     	
+    
+      <% 	
+      	Employee employeeDoctor = employeeLogged;
+      	MainController newController = new MainController();
+  		List<MedicalRecords> schedules = newController.getAllShedule();
+ 
+   for(int i = 0; i < schedules.size(); i++) {
+	 	if(schedules.get(i).getDoctorId().equals(employeeDoctor.getId())) { 
    %>
       <div class="card">
         <div class="card-body">
-          <div class="pacientInfo">
-            <span class="pacientStatus" title="ativo">
-              <% out.print(pacient.getStatus()); %>
-            </span>
-          </div>
           <div class="pacientDocument">
             <h3>
-              <% out.print(pacient.getName()); %>
+              N. Paciente: <% out.print(i+1); %>
             </h3>
-            <p>
-              N. documento: <% out.print(pacient.getDocumentId()); %>
+             <p class="mt-10">
+              Médico: <%out.print(employeeDoctor.getName());%>
             </p>
+            <p class="mt-10">
+              Data do atendimento: <%out.print(schedules.get(i).getExamDate());%>
+            </p>
+            <span class="pacientStatus mt-20" title="ativo">
+              <% 
+              	if(schedules.get(i).getStatus().equals("waiting_doctor")) {  
+            	  out.print("Aguardando Atendimento");
+              	}
+              
+				if(schedules.get(i).getStatus().equals("finished")) {  
+					out.print("Finalizado");
+				}
+              %>
+            </span>
           </div>
           <div class="pacientAction">
-            <a href="/prova/employeeDashboard/detailMedicalRecords.jsp?id=<%out.print(pacient.getId());%>">
+            <a href="/prova/employeeDashboard/detailSchedule.jsp?id=<%out.print(schedules.get(i).getId());%>">
               Detalhes
             </a>
           </div>
         </div>
       </div>
-      <% } %>
+      <% }} %>
     </div>
   </div>
 

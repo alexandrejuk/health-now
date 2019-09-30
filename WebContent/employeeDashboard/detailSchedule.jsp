@@ -1,16 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page import="java.util.List, Model.Pacient, Model.Employee, Model.MedicalRecords, Controller.MainController" language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
     if((session.getAttribute("employee") == null)||(session.getAttribute("employee") == "")) {
     	response.sendRedirect("/prova/index.html");
 } else {
+	
+		String id = request.getParameter("id");
+	  	MainController controllerMedical = new MainController();
+		MedicalRecords schedule = controllerMedical.getScheduleById(id);
+		Employee employee = controllerMedical.getEmployeeById(schedule.getDoctorId());
+		Pacient pacient = controllerMedical.getPacientById(schedule.getPacientId()); 
+	
 %>
 <!DOCTYPE html>
 <html>
 
 <head>
   <meta charset="UTF-8">
-  <title>helth Now - dashboard empregados</title>
+  <title>helth Now - Detalhe Consulta</title>
   <link href="https://fonts.googleapis.com/css?family=Cantarell:700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -61,6 +68,15 @@
       padding: 0 40px
     }
 
+    .formGroup>select {
+      display: block;
+      width: calc(100% - 8px);
+      padding: 10px;
+      border: 1px solid #c7c7c7;
+      border-radius: 3px;
+      background: transparent;
+    }
+
     .summaryItem {
       font-family: arial;
       width: 95px;
@@ -78,8 +94,10 @@
     }
 
     .menu-item {
+      padding: 24px 40px;
       font-size: 16px;
       cursor: pointer;
+      transition: .5s all;
       border-top: 1px solid transparent;
       border-bottom: 1px solid transparent;
     }
@@ -87,7 +105,6 @@
     .menu-item>a {
       display: block;
       width: 100%;
-      padding: 24px 40px;
     }
 
     .menu-item:hover,
@@ -185,7 +202,6 @@
       text-align: right;
     }
 
-
     .btn-primary:hover,
     .btn-primary:hover>* {
       background: #d64416;
@@ -232,16 +248,7 @@
     .formGroupButton {
       margin: 10px;
     }
-    .mt-20 {
-    	margin: 20px 0 !important;
-    	display: block;
-    	width: 200px;
-    }
-    .mt-10 {
-    margin: 10px 0 !important;
-    }
   </style>
-  <%@page import="java.util.List, Model.Pacient, Model.MedicalRecords, Controller.MainController" %>
 
 </head>
 
@@ -252,60 +259,71 @@
 
     <div class="content-main">
       <div class="navbar mb-40">
-        <h3 class="navbar-page">Consultas</h3>
-      </div>
-      <div class="content-action">
-        <a href="/prova/employeeDashboard/newMedicalRecords.jsp">
-          <button class="btn-primary">
-            Adicionar +
-          </button>
-        </a>
-      </div>
-      <% 
-  	MainController schedulesController = new MainController();
-  	List<MedicalRecords> shedules = schedulesController.getAllShedule();
-  	
-   for(int i = 0; i < shedules.size(); i++) {
-	   MedicalRecords schedule = shedules.get(i);
-	  
-   %>
-      <div class="card">
-        <div class="card-body">
-          <div class="pacientDocument">
-            <h3 class="mt-10">
-             <% out.print(controller.getPacientById(schedule.getPacientId()).getName()); %>
-            </h3>
-            <p class="mt-10">
-              Data do Atendimento: <% out.print(schedule.getExamDate()); %>
-            </p>
-             <p class="mt-10">
-              Médico: <%out.print(controller.getEmployeeById(schedule.getDoctorId()).getName());%>
-            </p>
-            <span class="pacientStatus mt-20" title="ativo">
-              <% 
-              	if(schedule.getStatus().equals("waiting_doctor")) {  
-            	  out.print("Aguardando Atendimento");
-              	}
+        <h3 class="navbar-page">Detalhe Consulta</h3>
+        <br />
+        <div class="card">
+          <div class="card-body">
+            <form class="form" action="/prova/employeeDashboard/medicalRecords" method="post">
+              <h4 class="formTitleNew">Dados da consulta</h4>
+             
+             <div class="formGroup">
+                <label class="formLabel">Nome do paciente<span class="required">*</span></label>
+                <input class="formInput" value="<% out.print(pacient.getName()); %>" readonly="readonly" placeholder="Nome do paciente" type="text" />
+              </div>
               
-				if(schedule.getStatus().equals("finished")) {  
-					out.print("Finalizado");
-				}
-              %>
-            </span>
-          </div>
-          <div class="pacientAction">
-            <a href="/prova/employeeDashboard/detailMedicalRecords.jsp?id=<%out.print(schedule.getId());%>">
-              Detalhes
-            </a>
+              <div class="formGroup">
+                <label class="formLabel">Tipo sanguineo<span class="required">*</span></label>
+                <input class="formInput" value="<% out.print(schedule.getBloodType()); %>"  readonly="readonly" placeholder="Tipo sanguineo" type="text" />
+              </div>
+              
+              <div class="formGroup">
+                <label class="formLabel">Sintoma<span class="required">*</span></label>
+                <input class="formInput" value="<% out.print(schedule.getSymptoms()); %>" readonly="readonly" placeholder="Sintoma" type="text"/>
+              </div>
+              
+              <div class="formGroup">
+                <label class="formLabel">Data do Exame<span class="required">*</span></label>
+                <input class="formInput" value="<% out.print(schedule.getExamDate()); %>" readonly="readonly" placeholder="Data do Exame" type="date" />
+              </div>
+              
+               <div class="formGroup">
+                <label class="formLabel">Tratamento<span class="required">*</span></label>
+                <input class="formInput"  placeholder="tratamento" name="treatment" type="text" />
+              </div>
+              
+               <div class="formGroup">
+                <label class="formLabel"></label>
+                <input class="formInput" value="<% out.print(schedule.getId()); %>" name="id" type="hidden" />
+              </div>
+              
+              <div class="formGroup">
+                <label class="formLabel"></label>
+                <input class="formInput" value="finished" placeholder="status" name="status" type="hidden" />
+              </div>
+              
+              <h4 class="formTitleNew">Dados do médico</h4>
+
+	           <div class="formGroup">
+	              <label class="formLabel">Nome do médico<span class="required">*</span></label>
+	              <input class="formInput" value="<% out.print(employee.getName()); %>" readonly="readonly" placeholder="Nome do médico" type="text" />
+	            </div>
+				<div class="formGroupButton">
+				
+			          <button class="btn-primary btn-block">
+			            Finalizar Atendimento
+			          </button>
+				 </div>
+				 </form>
+            </div>
           </div>
         </div>
+
       </div>
-      <% } %>
 
     </div>
-  </div>
 
 </body>
+
 </html>
 
 <%

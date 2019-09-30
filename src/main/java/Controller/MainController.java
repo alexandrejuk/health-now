@@ -145,6 +145,7 @@ public class MainController {
 		return foundShedule;
 	}
 	
+	
 	public Employee getEmployeeById(String id) {
 		Employee foundEmployee = null;
 		for(int i = 0; i < EMPLOYEES.size(); i++) {
@@ -182,6 +183,18 @@ public class MainController {
 		}
 		
 		return foundEmployee;
+	}
+	
+	public Pacient getPacientByDocumentId(String documentId) {
+		Pacient foundPacient = null;
+		for(int i = 0; i < PACIENTS.size(); i++) {
+			Pacient pacient = PACIENTS.get(i);
+		    if (pacient.getId().equals(documentId)) {
+		    	foundPacient = PACIENTS.get(i);
+		    }
+		}
+		
+		return foundPacient;
 	}
 	
 	public Pacient newPacient(
@@ -241,7 +254,8 @@ public class MainController {
 			String symptoms,
 			String bloodType,
 			String examDate,
-			String status
+			String status,
+			String treatment
 		) {
 		MedicalRecords shedule = new MedicalRecords(
 			id,
@@ -251,7 +265,7 @@ public class MainController {
 			bloodType,
 			examDate,
 			status,
-			""
+			treatment
 		);	
 		
 		for(int i = 0; i < SCHEDULES.size(); i++) {
@@ -377,17 +391,18 @@ public class MainController {
 	
 	public int totalScheduleFinish(String doctorId) {
 		int total = 0;
-		if(doctorId == null) 
+		if(doctorId == null) {
 			return total;
+		}
 		for(int i = 0; i < SCHEDULES.size(); i++) {
-					
-					if(
-						SCHEDULES.get(i).getStatus().equals("finished") && 
-						SCHEDULES.get(i).getDoctorId().equals(doctorId)
-					) {
-						total += 1;
-					}
-				}
+			
+			if(
+				SCHEDULES.get(i).getStatus().equals("finished") && 
+				SCHEDULES.get(i).getDoctorId().equals(doctorId)
+			) {
+				total += 1;
+			}
+		}
 		return total;
 	}
 }

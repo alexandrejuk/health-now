@@ -40,8 +40,6 @@ public class PacientServlet extends HttpServlet {
 				status
 			);
 			
-			req.getRequestDispatcher("/employeeDashboard/pacient.jsp").forward(req, resp);
-			
 		}else {
 			controller.newPacient(
 					userName,
@@ -54,8 +52,8 @@ public class PacientServlet extends HttpServlet {
 					status
 			);
 			
-			req.getRequestDispatcher("/employeeDashboard/pacient.jsp").forward(req, resp);
 		}
+		req.getRequestDispatcher("/employeeDashboard/pacient.jsp").forward(req, resp);
 		
 	}
 	

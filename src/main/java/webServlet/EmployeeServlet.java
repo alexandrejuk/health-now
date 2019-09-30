@@ -29,12 +29,11 @@ public class EmployeeServlet extends HttpServlet {
 		
 		if(id != null) {
 			controller.updateEmployee(id, userName, password, type, name, documentId, phone, address, role);
-			req.getRequestDispatcher("/employeeDashboard/employee.jsp").forward(req, resp);
 		}else {			
 			controller.newEmployee(userName, password, type, name, documentId, phone, address, role);
-			req.getRequestDispatcher("/employeeDashboard/employee.jsp").forward(req, resp);
 		}
 			
+		req.getRequestDispatcher("/employeeDashboard/employee.jsp").forward(req, resp);
 	}
 	
 }
