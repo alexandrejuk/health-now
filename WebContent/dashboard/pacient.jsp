@@ -10,7 +10,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>helth Now - Cadastrar Paciente</title>
+  <title>helth Now - dashboard empregados</title>
   <link href="https://fonts.googleapis.com/css?family=Cantarell:700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -61,15 +61,6 @@
       padding: 0 40px
     }
 
-    .formGroup>select {
-      display: block;
-      width: calc(100% - 8px);
-      padding: 10px;
-      border: 1px solid #c7c7c7;
-      border-radius: 3px;
-      background: transparent;
-    }
-
     .summaryItem {
       font-family: arial;
       width: 95px;
@@ -89,7 +80,6 @@
     .menu-item {
       font-size: 16px;
       cursor: pointer;
-      transition: .5s all;
       border-top: 1px solid transparent;
       border-bottom: 1px solid transparent;
     }
@@ -242,7 +232,7 @@
       margin: 10px;
     }
   </style>
-  <%@page import="java.util.List, Model.Pacient" %>
+  <%@page import="java.util.List, Model.Pacient, Controller.MainController" %>
 
 </head>
 
@@ -253,57 +243,47 @@
 
     <div class="content-main">
       <div class="navbar mb-40">
-        <h3 class="navbar-page">Adicionar paciente</h3>
-        <br />
-        <div class="card">
-          <div class="card-body">
-            <form class="form" action="/prova/employeeDashboard/pacient" method="post">
-              <h4 class="formTitleNew">Dados do Paciente</h4>
-              <div class="formGroup">
-                <label class="formLabel">Nome completo <span class="required">*</span></label>
-                <input class="formInput" placeholder="nome completo" type="text" name="name" required />
-              </div>
-              <div class="formGroup">
-                <label class="formLabel">Documento <span class="required">*</span></label>
-                <input class="formInput" placeholder="documento rg ou cpf" type="text" name="documentId" required />
-              </div>
-              <div class="formGroup">
-                <label class="formLabel"></label>
-                <input class="formInput" type="hidden" value="A" name="status" type="text" required />
-              </div>
-              <div class="formGroup">
-                <label class="formLabel"></label>
-                <input class="formInput" type="hidden" value="pacient" name="type" type="text" required />
-              </div>
-              <div class="formGroup">
-                <label class="formLabel">Telefone <span class="required">*</span></label>
-                <input class="formInput" placeholder="telefone" name="phone" type="text" required />
-              </div>
-              <div class="formGroup">
-                <label class="formLabel">Endereço completo <span class="required">*</span></label>
-                <input class="formInput" placeholder="Endereço completo" type="text" name="address" required />
-              </div>
-              <h4 class="formTitleNew">Dados do login</h4>
-              <div class="formGroup">
-                <label class="formLabel">Login <span class="required">*</span></label>
-                <input class="formInput" placeholder="login" type="text" name="userName" required />
-              </div>
-              <div class="formGroup">
-                <label class="formLabel">Senha Padrão</label>
-                <input class="formInput" type="text" readonly name="password" value="123456p" required />
-              </div>
-              <div class="formGroupButton">
-                <button class="btn-primary btn-block">
-                  Salvar
-                </button>
-              </div>
-
-            </form>
+        <h3 class="navbar-page">Pacientes</h3>
+      </div>
+      <div class="content-action">
+        <a href="/prova/dashboard/newPacient.jsp">
+          <button class="btn-primary">
+            Adicionar +
+          </button>
+        </a>
+      </div>
+      <% 
+  	List<Pacient> pacients = new MainController().getAllPacient();
+  
+   for(int i = 0; i < pacients.size(); i++) {
+	   Pacient pacient = pacients.get(i);
+   %>
+      <div class="card">
+        <div class="card-body">
+          <div class="pacientInfo">
+            <span class="pacientStatus" title="ativo">
+              <% out.print(pacient.getStatus()); %>
+            </span>
+          </div>
+          <div class="pacientDocument">
+            <h3>
+              <% out.print(pacient.getName()); %>
+            </h3>
+            <p>
+              N. documento: <% out.print(pacient.getDocumentId()); %>
+            </p>
+          </div>
+          <div class="pacientAction">
+            <a href="/prova/dashboard/detailPacient.jsp?id=<%out.print(pacient.getId());%>">
+              Detalhes
+            </a>
           </div>
         </div>
-
       </div>
+      <% } %>
     </div>
+  </div>
+
 
 </body>
 

@@ -29,6 +29,10 @@
       color: #334747;
     }
 
+    a {
+      min-width: 100%;
+    }
+
     body {
       background: #EEEEEE;
     }
@@ -243,47 +247,53 @@
 
     <div class="content-main">
       <div class="navbar mb-40">
-        <h3 class="navbar-page">Pacientes</h3>
+        <h3 class="navbar-page">Funcionários</h3>
       </div>
       <div class="content-action">
-        <a href="/prova/employeeDashboard/newPacient.jsp">
+        <a href="/prova/dashboard/newEmployee.jsp">
           <button class="btn-primary">
             Adicionar +
           </button>
         </a>
       </div>
       <% 
-  	List<Pacient> pacients = new MainController().getAllPacient();
+  	List<Employee> employeesList = new MainController().getAllEmployee();
   
-   for(int i = 0; i < pacients.size(); i++) {
-	   Pacient pacient = pacients.get(i);
+   for(int i = 0; i < employeesList.size(); i++) {
+	   Employee employeeItem = employeesList.get(i);
    %>
       <div class="card">
         <div class="card-body">
           <div class="pacientInfo">
-            <span class="pacientStatus" title="ativo">
-              <% out.print(pacient.getStatus()); %>
-            </span>
           </div>
           <div class="pacientDocument">
             <h3>
-              <% out.print(pacient.getName()); %>
+              <% out.print(employeeItem.getName()); %>
             </h3>
             <p>
-              N. documento: <% out.print(pacient.getDocumentId()); %>
+              Função: <%
+	          		String role = "Secretária";
+	          		if (employeeItem.getRole().equals("doctor")) {
+	          			role="Médico";
+	          		}
+	          		out.print(role);
+	          	%>
+            </p>
+            <p>
+              N. documento: <% out.print(employeeItem.getDocumentId()); %>
             </p>
           </div>
           <div class="pacientAction">
-            <a href="/prova/employeeDashboard/detailPacient.jsp?id=<%out.print(pacient.getId());%>">
+            <a href="/prova/dashboard/detailEmployee.jsp?id=<%out.print(employeeItem.getId());%>">
               Detalhes
             </a>
           </div>
         </div>
       </div>
       <% } %>
+
     </div>
   </div>
-
 
 </body>
 

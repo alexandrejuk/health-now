@@ -1,23 +1,16 @@
-<%@ page import="java.util.List, Model.Pacient, Model.Employee, Model.MedicalRecords, Controller.MainController" language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-    if((session.getAttribute("pacient") == null)||(session.getAttribute("pacient") == "")) {
+    if((session.getAttribute("employee") == null)||(session.getAttribute("employee") == "")) {
     	response.sendRedirect("/prova/index.html");
 } else {
-	
-		String id = request.getParameter("id");
-	  	MainController controllerMedical = new MainController();
-		MedicalRecords schedule = controllerMedical.getScheduleById(id);
-		Employee employee = controllerMedical.getEmployeeById(schedule.getDoctorId());
-		Pacient pacient = controllerMedical.getPacientById(schedule.getPacientId()); 
-	
 %>
 <!DOCTYPE html>
 <html>
 
 <head>
   <meta charset="UTF-8">
-  <title>helth Now - Detalhe Consulta</title>
+  <title>helth Now - Cadastrar Paciente</title>
   <link href="https://fonts.googleapis.com/css?family=Cantarell:700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -94,7 +87,6 @@
     }
 
     .menu-item {
-      padding: 24px 40px;
       font-size: 16px;
       cursor: pointer;
       transition: .5s all;
@@ -105,6 +97,7 @@
     .menu-item>a {
       display: block;
       width: 100%;
+      padding: 24px 40px;
     }
 
     .menu-item:hover,
@@ -248,69 +241,69 @@
     .formGroupButton {
       margin: 10px;
     }
-        .mt-30 {
-    margin: 30px 0 0 0 !important;
-    }
   </style>
+  <%@page import="java.util.List, Model.Pacient" %>
 
 </head>
 
 <body>
   <div class="container">
 
-     <%@ include file="toolbarPacient.jsp" %>
+    <%@ include file="toolbar.jsp" %>
 
     <div class="content-main">
       <div class="navbar mb-40">
-        <h3 class="navbar-page">Detalhe Consulta</h3>
+        <h3 class="navbar-page">Adicionar paciente</h3>
         <br />
         <div class="card">
           <div class="card-body">
-            <div class="form" >
-              <h4 class="formTitleNew">Dados da consulta</h4>
-             
-             <div class="formGroup">
-                <label class="formLabel">Nome do paciente<span class="required">*</span></label>
-                <input class="formInput" value="<% out.print(pacient.getName()); %>" readonly="readonly" placeholder="Nome do paciente" type="text" />
-              </div>
-              
+            <form class="form" action="/prova/dashboard/pacient" method="post">
+              <h4 class="formTitleNew">Dados do Paciente</h4>
               <div class="formGroup">
-                <label class="formLabel">Tipo sanguineo<span class="required">*</span></label>
-                <input class="formInput" value="<% out.print(schedule.getBloodType()); %>"  readonly="readonly" placeholder="Tipo sanguineo" type="text" />
+                <label class="formLabel">Nome completo <span class="required">*</span></label>
+                <input class="formInput" placeholder="nome completo" type="text" name="name" required />
               </div>
-              
               <div class="formGroup">
-                <label class="formLabel">Sintoma<span class="required">*</span></label>
-                <input class="formInput" value="<% out.print(schedule.getSymptoms()); %>" readonly="readonly" placeholder="Sintoma" type="text"/>
+                <label class="formLabel">Documento <span class="required">*</span></label>
+                <input class="formInput" placeholder="documento rg ou cpf" type="text" name="documentId" required />
               </div>
-              
               <div class="formGroup">
-                <label class="formLabel">Data do Exame<span class="required">*</span></label>
-                <input class="formInput" value="<% out.print(schedule.getExamDate()); %>" readonly="readonly" placeholder="Data do Exame" type="date" />
+                <label class="formLabel"></label>
+                <input class="formInput" type="hidden" value="A" name="status" type="text" required />
               </div>
-              
-              <h4 class="formTitleNew">Dados do médico</h4>
+              <div class="formGroup">
+                <label class="formLabel"></label>
+                <input class="formInput" type="hidden" value="pacient" name="type" type="text" required />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel">Telefone <span class="required">*</span></label>
+                <input class="formInput" placeholder="telefone" name="phone" type="text" required />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel">Endereço completo <span class="required">*</span></label>
+                <input class="formInput" placeholder="Endereço completo" type="text" name="address" required />
+              </div>
+              <h4 class="formTitleNew">Dados do login</h4>
+              <div class="formGroup">
+                <label class="formLabel">Login <span class="required">*</span></label>
+                <input class="formInput" placeholder="login" type="text" name="userName" required />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel">Senha Padrão</label>
+                <input class="formInput" type="text" readonly name="password" value="123456p" required />
+              </div>
+              <div class="formGroupButton">
+                <button class="btn-primary btn-block">
+                  Salvar
+                </button>
+              </div>
 
-	           <div class="formGroup">
-	              <label class="formLabel">Nome do médico<span class="required">*</span></label>
-	              <input class="formInput" value="<% out.print(employee.getName()); %>" readonly="readonly" placeholder="Data do Exame" type="text" />
-	            </div>
-				<div class="formGroupButton">
-				 <a href="/prova/employeeDashboard/medicalRecords.jsp">
-			          <button class="btn-primary btn-block">
-			            Voltar
-			          </button>
-			        </a>
-				 </div>
-            </div>
+            </form>
           </div>
         </div>
 
       </div>
-
     </div>
-  </div>
-
 
 </body>
 

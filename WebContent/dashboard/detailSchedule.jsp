@@ -263,7 +263,7 @@
         <br />
         <div class="card">
           <div class="card-body">
-            <div class="form" >
+            <form class="form" action="/prova/dashboard/medicalRecords" method="post">
               <h4 class="formTitleNew">Dados da consulta</h4>
              
              <div class="formGroup">
@@ -286,19 +286,34 @@
                 <input class="formInput" value="<% out.print(schedule.getExamDate()); %>" readonly="readonly" placeholder="Data do Exame" type="date" />
               </div>
               
+               <div class="formGroup">
+                <label class="formLabel">Tratamento<span class="required">*</span></label>
+                <input class="formInput"  placeholder="tratamento" name="treatment" type="text" />
+              </div>
+              
+               <div class="formGroup">
+                <label class="formLabel"></label>
+                <input class="formInput" value="<% out.print(schedule.getId()); %>" name="id" type="hidden" />
+              </div>
+              
+              <div class="formGroup">
+                <label class="formLabel"></label>
+                <input class="formInput" value="finished" placeholder="status" name="status" type="hidden" />
+              </div>
+              
               <h4 class="formTitleNew">Dados do médico</h4>
 
 	           <div class="formGroup">
 	              <label class="formLabel">Nome do médico<span class="required">*</span></label>
-	              <input class="formInput" value="<% out.print(employee.getName()); %>" readonly="readonly" placeholder="Data do Exame" type="text" />
+	              <input class="formInput" value="<% out.print(employee.getName()); %>" readonly="readonly" placeholder="Nome do médico" type="text" />
 	            </div>
 				<div class="formGroupButton">
-				 <a href="/prova/employeeDashboard/medicalRecords.jsp">
+				
 			          <button class="btn-primary btn-block">
-			            Voltar
+			            Finalizar Atendimento
 			          </button>
-			        </a>
 				 </div>
+				 </form>
             </div>
           </div>
         </div>
@@ -306,8 +321,6 @@
       </div>
 
     </div>
-  </div>
-
 
 </body>
 

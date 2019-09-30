@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import Controller.MainController;
 import Model.MedicalRecords;
 
-@WebServlet (urlPatterns = "/employeeDashboard/medicalRecords")
+@WebServlet (urlPatterns = "/dashboard/medicalRecords")
 public class MedicalRecordsServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = -869644688587871518L;
@@ -40,7 +40,7 @@ public class MedicalRecordsServlet extends HttpServlet {
 						status,
 						treatment
 				);
-				req.getRequestDispatcher("/employeeDashboard/schedule.jsp").forward(req, resp);
+				req.getRequestDispatcher("/dashboard/schedule.jsp").forward(req, resp);
 			}else {			
 				controller.newShedule(
 						pacientId, 
@@ -50,7 +50,7 @@ public class MedicalRecordsServlet extends HttpServlet {
 						examDate,
 						status
 				);
-				req.getRequestDispatcher("/employeeDashboard/medicalRecords.jsp").forward(req, resp);
+				req.getRequestDispatcher("/dashboard/medicalRecords.jsp").forward(req, resp);
 			}		
 		
 	}

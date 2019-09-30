@@ -1,4 +1,3 @@
-<%@page import="Model.MedicalRecords, Controller.MainController"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -11,7 +10,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>helth Now - dashboard empregados</title>
+  <title>helth Now - Cadastrar Paciente</title>
   <link href="https://fonts.googleapis.com/css?family=Cantarell:700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -81,6 +80,7 @@
     .menu-item {
       font-size: 16px;
       cursor: pointer;
+      transition: .5s all;
       border-top: 1px solid transparent;
       border-bottom: 1px solid transparent;
     }
@@ -95,6 +95,15 @@
     .menu-item:hover>* {
       color: #d64416;
       border-color: #d64416;
+    }
+
+    .formGroup>select {
+      display: block;
+      width: calc(100% - 8px);
+      padding: 10px;
+      border: 1px solid #c7c7c7;
+      border-radius: 3px;
+      background: transparent;
     }
 
     .summaryItem-title {
@@ -232,25 +241,12 @@
     .formGroupButton {
       margin: 10px;
     }
-    .filter {
-    	width: calc(100%/2);
-    	margin: 0 14px; 
-    	display: flex;
-    }
-   .mtb-10 {
-   	margin: 20px 0 0 0;
-   }
-.mt-10 {
-	margin: 10px 0; 
-}
- .mt-20 {
-    	margin: 20px 0 !important;
-    	display: block;
-    	width: 200px;
-    }
   </style>
   <%@page import="java.util.List, Model.Pacient, Controller.MainController" %>
-
+  <%
+	String id = request.getParameter("id");
+	Pacient pacient = new MainController().getPacientById(id);
+%>
 </head>
 
 <body>
@@ -259,51 +255,75 @@
     <%@ include file="toolbar.jsp" %>
 
     <div class="content-main">
-      <div class="navbar ">
-        <h3 class="navbar-page">Agenda</h3>
-      </div>
-     	
-    
-      <% 	
-      	Employee employeeDoctor = employeeLogged;
-      	MainController newController = new MainController();
-  		List<MedicalRecords> schedules = newController.getAllShedule();
- 
-   for(int i = 0; i < schedules.size(); i++) {
-	 	if(schedules.get(i).getDoctorId().equals(employeeDoctor.getId())) { 
-   %>
-      <div class="card">
-        <div class="card-body">
-          <div class="pacientDocument">
-            <h3>
-              N. Paciente: <% out.print(i+1); %>
-            </h3>
-             <p class="mt-10">
-              Médico: <%out.print(employeeDoctor.getName());%>
-            </p>
-            <p class="mt-10">
-              Data do atendimento: <%out.print(schedules.get(i).getExamDate());%>
-            </p>
-            <span class="pacientStatus mt-20" title="ativo">
-              <% 
-              	if(schedules.get(i).getStatus().equals("waiting_doctor")) {  
-            	  out.print("Aguardando Atendimento");
-              	}
-              
-				if(schedules.get(i).getStatus().equals("finished")) {  
-					out.print("Finalizado");
-				}
-              %>
-            </span>
-          </div>
-          <div class="pacientAction">
-            <a href="/prova/employeeDashboard/detailSchedule.jsp?id=<%out.print(schedules.get(i).getId());%>">
-              Detalhes
-            </a>
+      <div class="navbar mb-40">
+        <h3 class="navbar-page">Detalhes paciente</h3>
+        <br />
+        <div class="card">
+          <div class="card-body">
+            <form class="form" action="/prova/dashboard/pacient" method="post">
+              <h4 class="formTitleNew">Dados do Paciente</h4>
+              <div class="formGroup">
+                <label class="formLabel">Nome completo <span class="required">*</span></label>
+                <input class="formInput" placeholder="nome completo" type="text" name="name" required
+                  value="<% out.print(pacient.getName()); %>" />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel">Documento <span class="required">*</span></label>
+                <input class="formInput" placeholder="documento rg ou cpf" type="text" name="documentId" required
+                  value="<% out.print(pacient.getDocumentId()); %>" />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel"></label>
+                <input class="formInput" type="hidden" value="<% out.print(pacient.getId()); %>" name="id" type="text"
+                  required />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel"></label>
+                <input class="formInput" type="hidden" name="status" type="text" required
+                  value="<% out.print(pacient.getStatus()); %>" />
+              </div>
+
+              <div class="formGroup">
+                <label class="formLabel">Telefone <span class="required">*</span></label>
+                <input class="formInput" placeholder="telefone" name="phone" type="text" required
+                  value="<% out.print(pacient.getPhone()); %>" />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel">Endereço completo <span class="required">*</span></label>
+                <input class="formInput" placeholder="Endereço completo" type="text" name="address" required
+                  value="<% out.print(pacient.getAddress()); %>" />
+              </div>
+              <h4 class="formTitleNew">Dados do login</h4>
+              <div class="formGroup">
+                <label class="formLabel">Login <span class="required">*</span></label>
+                <input class="formInput" placeholder="login" type="text" name="userName" required
+                  value="<% out.print(pacient.getLogin().getUserName()); %>" />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel">Senha Padrão</label>
+                <input class="formInput" type="password" name="password"
+                  value="<% out.print(pacient.getLogin().getPassword()); %>" required />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel"></label>
+                <input class="formInput" type="hidden" value="<% out.print(pacient.getLogin().getType()); %>"
+                  name="type" type="text" required />
+              </div>
+
+              <div class="formGroupButton">
+                <button class="btn-primary btn-block">
+                  Salvar
+                </button>
+              </div>
+
+            </form>
           </div>
         </div>
+
+
+
       </div>
-      <% }} %>
+
     </div>
   </div>
 
@@ -311,7 +331,6 @@
 </body>
 
 </html>
-
 <%
     }
 %>

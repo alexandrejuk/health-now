@@ -10,7 +10,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>helth Now - dashboard empregados</title>
+  <title>helth Now - Cadastrar Funcionário</title>
   <link href="https://fonts.googleapis.com/css?family=Cantarell:700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -27,10 +27,6 @@
     a:active {
       text-decoration: none;
       color: #334747;
-    }
-
-    a {
-      min-width: 100%;
     }
 
     body {
@@ -82,8 +78,10 @@
     }
 
     .menu-item {
+      padding: 24px 40px;
       font-size: 16px;
       cursor: pointer;
+      transition: .5s all;
       border-top: 1px solid transparent;
       border-bottom: 1px solid transparent;
     }
@@ -91,7 +89,6 @@
     .menu-item>a {
       display: block;
       width: 100%;
-      padding: 24px 40px;
     }
 
     .menu-item:hover,
@@ -139,6 +136,15 @@
       margin: 20px 25px;
       border-radius: 4px;
       box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .07);
+    }
+
+    .formGroup>select {
+      display: block;
+      width: calc(100% - 8px);
+      padding: 10px;
+      border: 1px solid #c7c7c7;
+      border-radius: 3px;
+      background: transparent;
     }
 
     .card-body {
@@ -236,7 +242,7 @@
       margin: 10px;
     }
   </style>
-  <%@page import="java.util.List, Model.Pacient, Controller.MainController" %>
+  <%@page import="java.util.List, Model.Pacient" %>
 
 </head>
 
@@ -247,53 +253,62 @@
 
     <div class="content-main">
       <div class="navbar mb-40">
-        <h3 class="navbar-page">Funcionários</h3>
-      </div>
-      <div class="content-action">
-        <a href="/prova/employeeDashboard/newEmployee.jsp">
-          <button class="btn-primary">
-            Adicionar +
-          </button>
-        </a>
-      </div>
-      <% 
-  	List<Employee> employeesList = new MainController().getAllEmployee();
-  
-   for(int i = 0; i < employeesList.size(); i++) {
-	   Employee employeeItem = employeesList.get(i);
-   %>
-      <div class="card">
-        <div class="card-body">
-          <div class="pacientInfo">
-          </div>
-          <div class="pacientDocument">
-            <h3>
-              <% out.print(employeeItem.getName()); %>
-            </h3>
-            <p>
-              Função: <%
-	          		String role = "Secretária";
-	          		if (employeeItem.getRole().equals("doctor")) {
-	          			role="Médico";
-	          		}
-	          		out.print(role);
-	          	%>
-            </p>
-            <p>
-              N. documento: <% out.print(employeeItem.getDocumentId()); %>
-            </p>
-          </div>
-          <div class="pacientAction">
-            <a href="/prova/employeeDashboard/detailEmployee.jsp?id=<%out.print(employeeItem.getId());%>">
-              Detalhes
-            </a>
+        <h3 class="navbar-page">Adicionar funcionário</h3>
+        <br />
+        <div class="card">
+          <div class="card-body">
+            <form class="form" action="/prova/dashboard/employee" method="post">
+              <h4 class="formTitleNew">Dados do funcionário</h4>
+              <div class="formGroup">
+                <label class="formLabel">Nome completo <span class="required">*</span></label>
+                <input class="formInput" placeholder="nome completo" type="text" name="name" required />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel">Documento <span class="required">*</span></label>
+                <input class="formInput" placeholder="documento rg ou cpf" type="text" name="documentId" required />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel"></label>
+                <input class="formInput" type="hidden" value="pacient" name="type" type="text" required />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel">Telefone <span class="required">*</span></label>
+                <input class="formInput" placeholder="telefone" name="phone" type="text" required />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel">Endereço completo <span class="required">*</span></label>
+                <input class="formInput" placeholder="Endereço completo" type="text" name="address" required />
+              </div>
+              <h4 class="formTitleNew">Dados do login</h4>
+              <div class="formGroup">
+                <label class="formLabel">Login <span class="required">*</span></label>
+                <input class="formInput" placeholder="login" type="text" name="userName" required />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel">Perfil <span class="required">*</span></label>
+                <select required name="role">
+                  <option value="secretary">secretária</option>
+                  <option value="doctor">médico</option>
+                </select>
+
+              </div>
+
+              <div class="formGroup">
+                <label class="formLabel">Senha Padrão</label>
+                <input class="formInput" type="text" readonly name="password" value="123456e" required />
+              </div>
+              <div class="formGroupButton">
+                <button class="btn-primary btn-block">
+                  Salvar
+                </button>
+              </div>
+
+            </form>
           </div>
         </div>
       </div>
-      <% } %>
-
     </div>
-  </div>
+
 
 </body>
 

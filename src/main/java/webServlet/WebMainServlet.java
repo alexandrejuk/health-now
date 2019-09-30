@@ -38,14 +38,14 @@ public class WebMainServlet extends HttpServlet {
 			cookie = new Cookie("employee", employee.getDocumentId());
 			session.setAttribute("employee", employee.getName());
 			resp.addCookie(cookie);
-			req.getRequestDispatcher("/employeeDashboard/pacient.jsp").forward(req, resp);
+			req.getRequestDispatcher("/dashboard/pacient.jsp").forward(req, resp);
 		}
 		
 		if(pacient != null) {
 			cookie = new Cookie("pacient", pacient.getDocumentId());
 			session.setAttribute("pacient", pacient.getName());
 			resp.addCookie(cookie);
-			req.getRequestDispatcher("/employeeDashboard/medicalRecordsPacient.jsp").forward(req, resp);
+			req.getRequestDispatcher("/dashboard/medicalRecordsPacient.jsp").forward(req, resp);
 		}
 		
 		if(employee == null && pacient == null)

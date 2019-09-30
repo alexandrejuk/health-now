@@ -29,8 +29,8 @@
   
   <div class="toolbar-menu mt-30">
     <ul class="menu">
-      <li class="menu-item"><a href="/prova/employeeDashboard/medicalRecordsPacient.jsp">Consultas</a></li>
-      <li class="menu-item"><a href="/prova/employeeDashboard/signout.jsp">Sair</a></li>
+      <li class="menu-item"><a href="/prova/dashboard/medicalRecordsPacient.jsp">Consultas</a></li>
+      <li class="menu-item"><a href="/prova/dashboard/signout.jsp">Sair</a></li>
     </ul>
   </div>
 </div>

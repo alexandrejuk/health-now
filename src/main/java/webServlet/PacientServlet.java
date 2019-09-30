@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import Controller.MainController;
 
-@WebServlet (urlPatterns = "/employeeDashboard/pacient")
+@WebServlet (urlPatterns = "/dashboard/pacient")
 public class PacientServlet extends HttpServlet {
 	private static final long serialVersionUID = 4566138590620477262L;
 	private MainController controller = new MainController();
@@ -53,7 +53,7 @@ public class PacientServlet extends HttpServlet {
 			);
 			
 		}
-		req.getRequestDispatcher("/employeeDashboard/pacient.jsp").forward(req, resp);
+		req.getRequestDispatcher("/dashboard/pacient.jsp").forward(req, resp);
 		
 	}
 	

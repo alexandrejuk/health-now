@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-    if((session.getAttribute("pacient") == null)||(session.getAttribute("pacient") == "")) {
+    if((session.getAttribute("employee") == null)||(session.getAttribute("employee") == "")) {
     	response.sendRedirect("/prova/index.html");
 } else {
 %>
@@ -10,7 +10,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>helth Now - dashboard paciente</title>
+  <title>helth Now - Cadastrar Paciente</title>
   <link href="https://fonts.googleapis.com/css?family=Cantarell:700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -61,6 +61,15 @@
       padding: 0 40px
     }
 
+    .formGroup>select {
+      display: block;
+      width: calc(100% - 8px);
+      padding: 10px;
+      border: 1px solid #c7c7c7;
+      border-radius: 3px;
+      background: transparent;
+    }
+
     .summaryItem {
       font-family: arial;
       width: 95px;
@@ -75,12 +84,12 @@
 
     .menu {
       list-style: none;
-      width: 282x;
     }
 
     .menu-item {
       font-size: 16px;
       cursor: pointer;
+      transition: .5s all;
       border-top: 1px solid transparent;
       border-bottom: 1px solid transparent;
     }
@@ -116,7 +125,7 @@
     .navbar {
       background: #fff;
       height: 25px;
-      width: calc(100vw - 278px);
+      width: calc(100vw - 350px);
       padding: 25px;
     }
 
@@ -186,7 +195,6 @@
       text-align: right;
     }
 
-
     .btn-primary:hover,
     .btn-primary:hover>* {
       background: #d64416;
@@ -233,79 +241,100 @@
     .formGroupButton {
       margin: 10px;
     }
-    .mt-20 {
-    	margin: 20px 0 !important;
-    	display: block;
-    	width: 200px;
-    }
-    .mt-10 {
-    margin: 10px 0 !important;
-    }
-    
-       .mt-30 {
-    margin: 30px 0 0 0 !important;
-    }
   </style>
-  <%@page import="java.util.List, Model.Pacient, Model.MedicalRecords, Controller.MainController" %>
-
+  <%@page import="java.util.List, Model.Employee, Controller.MainController" %>
+  <%
+	String id = request.getParameter("id");
+	Employee employee = new MainController().getEmployeeById(id);
+%>
 </head>
 
 <body>
   <div class="container">
 
-    <%@ include file="toolbarPacient.jsp" %>
+    <%@ include file="toolbar.jsp" %>
 
     <div class="content-main">
       <div class="navbar mb-40">
-        <h3 class="navbar-page">Minhas Consultas</h3>
-      </div>
-      <% 
-  	MainController schedulesController = new MainController();
-  	List<MedicalRecords> shedules = schedulesController.getAllShedule();
-  	
-   for(int i = 0; i < shedules.size(); i++) {
-	   MedicalRecords schedule = shedules.get(i);
-	  if (schedule.getPacientId().equals(pacientLogged.getId())) {
-   %>
-      <div class="card">
-        <div class="card-body">
-          <div class="pacientDocument">
-            <h3 class="mt-10">
-             <% out.print(controller.getPacientById(schedule.getPacientId()).getName()); %>
-            </h3>
-            <p class="mt-10">
-              Data do Atendimento: <% out.print(schedule.getExamDate()); %>
-            </p>
-             <p class="mt-10">
-              Médico: <%out.print(controller.getEmployeeById(schedule.getDoctorId()).getName());%>
-            </p>
-            <span class="pacientStatus mt-20" title="ativo">
-              <% 
-              	if(schedule.getStatus().equals("waiting_doctor")) {  
-            	  out.print("Aguardando Atendimento");
-              	}
-              
-				if(schedule.getStatus().equals("finished")) {  
-					out.print("Finalizado");
-				}
-              %>
-            </span>
-          </div>
-          <div class="pacientAction">
-            <a href="/prova/employeeDashboard/detailMedicalRecordsPacient.jsp?id=<%out.print(schedule.getId());%>">
-              Detalhes
-            </a>
+        <h3 class="navbar-page">Detalhes do funcionário</h3>
+        <br />
+        <div class="card">
+          <div class="card-body">
+            <form class="form" action="/prova/dashboard/employee" method="post">
+              <h4 class="formTitleNew">Dados do funcionário</h4>
+              <div class="formGroup">
+                <label class="formLabel">Nome completo <span class="required">*</span></label>
+                <input class="formInput" placeholder="nome completo" type="text" name="name" required
+                  value="<% out.print(employee.getName()); %>" />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel">Documento <span class="required">*</span></label>
+                <input class="formInput" placeholder="documento rg ou cpf" type="text" name="documentId" required
+                  value="<% out.print(employee.getDocumentId()); %>" />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel"></label>
+                <input class="formInput" type="hidden" value="<% out.print(employee.getId()); %>" name="id" type="text"
+                  required />
+              </div>
+
+              <div class="formGroup">
+                <label class="formLabel">Telefone <span class="required">*</span></label>
+                <input class="formInput" placeholder="telefone" name="phone" type="text" required
+                  value="<% out.print(employee.getPhone()); %>" />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel">Endereço completo <span class="required">*</span></label>
+                <input class="formInput" placeholder="Endereço completo" type="text" name="address" required
+                  value="<% out.print(employee.getAddress()); %>" />
+              </div>
+              <h4 class="formTitleNew">Dados do login</h4>
+              <div class="formGroup">
+                <label class="formLabel">Login <span class="required">*</span></label>
+                <input class="formInput" placeholder="login" type="text" name="userName" required
+                  value="<% out.print(employee.getLogin().getUserName()); %>" />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel">Senha Padrão <span class="required">*</span></label>
+                <input class="formInput" type="password" name="password"
+                  value="<% out.print(employee.getLogin().getPassword()); %>" required />
+              </div>
+              <div class="formGroup">
+                <label class="formLabel">Perfil <span class="required">*</span></label>
+                <select required name="role" value="<% out.print(employee.getRole()); %>">
+                  <option value="secretary">secretária</option>
+                  <option value="doctor">médico</option>
+                </select>
+
+              </div>
+
+              <div class="formGroup">
+                <label class="formLabel"></label>
+                <input class="formInput" type="hidden" value="<% out.print(employee.getLogin().getType()); %>"
+                  name="type" type="text" required />
+              </div>
+
+              <div class="formGroupButton">
+                <button class="btn-primary btn-block">
+                  Salvar
+                </button>
+              </div>
+
+            </form>
           </div>
         </div>
+
+
+
       </div>
-      <% }} %>
 
     </div>
   </div>
 
-</body>
-</html>
 
+</body>
+
+</html>
 <%
     }
 %>

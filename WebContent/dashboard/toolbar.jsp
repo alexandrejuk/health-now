@@ -62,14 +62,14 @@
       <%
       	if(employeeLogged.getRole().equals("doctor")) {
       %>
-      	<li class="menu-item"><a href="/prova/employeeDashboard/schedule.jsp">Agenda</a></li>
+      	<li class="menu-item"><a href="/prova/dashboard/schedule.jsp">Agenda</a></li>
       
       <%}else { %>
-      	<li class="menu-item"><a href="/prova/employeeDashboard/medicalRecords.jsp">Consultas</a></li>
+      	<li class="menu-item"><a href="/prova/dashboard/medicalRecords.jsp">Consultas</a></li>
       <% } %>
-      <li class="menu-item"><a href="/prova/employeeDashboard/pacient.jsp">Pacientes</a></li>
-      <li class="menu-item"><a href="/prova/employeeDashboard/employee.jsp">Funcionários</a></li>
-      <li class="menu-item"><a href="/prova/employeeDashboard/signout.jsp">Sair</a></li>
+      <li class="menu-item"><a href="/prova/dashboard/pacient.jsp">Pacientes</a></li>
+      <li class="menu-item"><a href="/prova/dashboard/employee.jsp">Funcionários</a></li>
+      <li class="menu-item"><a href="/prova/dashboard/signout.jsp">Sair</a></li>
 
     </ul>
   </div>
