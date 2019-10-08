@@ -1,11 +1,11 @@
-# helth Now 
+# health Now 
 
-O helth Now é uma aplicação web construida com Java JSP e Maven, para avaliação da Universidade Metodista de SP.
+O health Now é uma aplicação web construida com Java JSP e Maven, para avaliação da Universidade Metodista de SP.
 
 ## Instalação
 
 1. Clone o repositório: 
-2. Acesse o diretório: cd helth-now
+2. Acesse o diretório: cd health-now
 3. Instalar as dependencias
 4. Executar o projeto com apache
 5. Abrir o browser: http://localhost:PORT
